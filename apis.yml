@@ -1,0 +1,222 @@
+aid: oneflow
+url: https://raw.githubusercontent.com/api-evangelist/oneflow/refs/heads/main/apis.yml
+name: Oneflow
+kind: company
+description: Oneflow is a contract lifecycle management and e-signature platform that
+  turns static documents into smart, data-rich digital contracts - covering creation
+  from templates, negotiation, e-signing, and post-sign lifecycle management. The
+  Oneflow Public API is a REST API at https://api.oneflow.com/v1 authenticated with
+  an account API token (x-oneflow-api-token) plus an acting-user email header
+  (x-oneflow-user-email) for permission checks. It lets teams programmatically
+  create contracts from templates, add parties and participants, fill data fields
+  and products, publish contracts for signing, download signed files, and subscribe
+  to contract lifecycle events via webhooks. API access and webhooks are available
+  on the Business and Enterprise plans.
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+tags:
+- Contract Management
+- Contract Lifecycle Management
+- E-Signature
+- Digital Contracts
+- Document Automation
+- CLM
+created: '2026-07-03'
+modified: '2026-07-03'
+specificationVersion: '0.19'
+apis:
+- aid: oneflow:oneflow-contracts-api
+  name: Oneflow Contracts API
+  tags:
+  - Contracts
+  - E-Signature
+  - Lifecycle
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://developer.oneflow.com/docs/create-a-basic-contract
+  baseURL: https://api.oneflow.com/v1
+  properties:
+  - url: https://developer.oneflow.com/docs/getting-started
+    type: Documentation
+  - url: https://developer.oneflow.com/docs/create-a-basic-contract
+    type: APIReference
+  - url: openapi/oneflow-openapi.yml
+    type: OpenAPI
+  - url: collections/oneflow.postman_collection.json
+    type: PostmanCollection
+  - url: collections/oneflow.opencollection.json
+    type: OpenCollection
+  description: Create contracts from templates, retrieve and list contracts, update
+    top-level contract information, publish a draft contract for signing, copy and
+    delete contracts, and download the resulting contract files (PDF / signed
+    documents). The core resource of the Oneflow platform.
+- aid: oneflow:oneflow-templates-api
+  name: Oneflow Templates API
+  tags:
+  - Templates
+  - Template Types
+  - Contract Creation
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://developer.oneflow.com/reference/get-templates
+  baseURL: https://api.oneflow.com/v1
+  properties:
+  - url: https://developer.oneflow.com/reference/get-templates
+    type: APIReference
+  - url: openapi/oneflow-openapi.yml
+    type: OpenAPI
+  - url: collections/oneflow.postman_collection.json
+    type: PostmanCollection
+  - url: collections/oneflow.opencollection.json
+    type: OpenCollection
+  description: Retrieve the templates available to a user and inspect template types -
+    the reusable, pre-configured contract definitions (with their sections, data
+    fields, and products) that new contracts are created from. Filterable by
+    workspace, template type, and active state.
+- aid: oneflow:oneflow-workspaces-api
+  name: Oneflow Workspaces API
+  tags:
+  - Workspaces
+  - Organization
+  - Accounts
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://developer.oneflow.com/reference/get-workspaces
+  baseURL: https://api.oneflow.com/v1
+  properties:
+  - url: https://developer.oneflow.com/reference/get-workspaces
+    type: APIReference
+  - url: openapi/oneflow-openapi.yml
+    type: OpenAPI
+  - url: collections/oneflow.postman_collection.json
+    type: PostmanCollection
+  - url: collections/oneflow.opencollection.json
+    type: OpenCollection
+  description: List the workspaces in an account - the organizational containers that
+    scope templates, contracts, branding, and permissions. Workspace IDs are required
+    when creating contracts and filtering templates, making this the entry point for
+    most integration flows.
+- aid: oneflow:oneflow-data-fields-api
+  name: Oneflow Data Fields API
+  tags:
+  - Data Fields
+  - Custom Fields
+  - Merge Fields
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://developer.oneflow.com/docs/data-field.md
+  baseURL: https://api.oneflow.com/v1
+  properties:
+  - url: https://developer.oneflow.com/docs/data-field.md
+    type: Documentation
+  - url: openapi/oneflow-openapi.yml
+    type: OpenAPI
+  - url: collections/oneflow.postman_collection.json
+    type: PostmanCollection
+  - url: collections/oneflow.opencollection.json
+    type: OpenCollection
+  description: Read and update the data fields (custom / merge fields) on a contract and
+    inspect the data fields defined on a template type. Data fields drive the dynamic,
+    data-rich content that Oneflow merges into a contract at creation and update time.
+- aid: oneflow:oneflow-participants-api
+  name: Oneflow Participants API
+  tags:
+  - Participants
+  - Parties
+  - Signatories
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://developer.oneflow.com/docs/participant.md
+  baseURL: https://api.oneflow.com/v1
+  properties:
+  - url: https://developer.oneflow.com/docs/participant.md
+    type: Documentation
+  - url: https://developer.oneflow.com/docs/party.md
+    type: Documentation
+  - url: openapi/oneflow-openapi.yml
+    type: OpenAPI
+  - url: collections/oneflow.postman_collection.json
+    type: PostmanCollection
+  - url: collections/oneflow.opencollection.json
+    type: OpenCollection
+  description: Manage the parties (counterparty companies or individuals) and the
+    participants (signatories and viewers) on a contract - add, update, and remove
+    them, and control their signing method, permissions, and delivery channel before
+    a contract is published.
+- aid: oneflow:oneflow-webhooks-api
+  name: Oneflow Webhooks API
+  tags:
+  - Webhooks
+  - Events
+  - Callbacks
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://developer.oneflow.com/docs/webhook.md
+  baseURL: https://api.oneflow.com/v1
+  properties:
+  - url: https://developer.oneflow.com/docs/webhook.md
+    type: Documentation
+  - url: openapi/oneflow-openapi.yml
+    type: OpenAPI
+  - url: collections/oneflow.postman_collection.json
+    type: PostmanCollection
+  - url: collections/oneflow.opencollection.json
+    type: OpenCollection
+  description: Register, list, and delete webhook subscriptions that deliver contract
+    lifecycle events (contract published, signed, declined, and other events) to an
+    HTTP callback URL, optionally filtered by event type and workspace. Oneflow's
+    outbound, request/response push mechanism - there is no public WebSocket API.
+- aid: oneflow:oneflow-users-api
+  name: Oneflow Users API
+  tags:
+  - Users
+  - Accounts
+  - Identity
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://developer.oneflow.com/reference/get-users-in-an-account
+  baseURL: https://api.oneflow.com/v1
+  properties:
+  - url: https://developer.oneflow.com/reference/get-users-in-an-account
+    type: APIReference
+  - url: https://developer.oneflow.com/docs/user.md
+    type: Documentation
+  - url: openapi/oneflow-openapi.yml
+    type: OpenAPI
+  - url: collections/oneflow.postman_collection.json
+    type: PostmanCollection
+  - url: collections/oneflow.opencollection.json
+    type: OpenCollection
+  description: List and retrieve the users in an account - the people whose email
+    addresses back the x-oneflow-user-email authorization header and who own contracts,
+    templates, and workspace permissions. Enterprise accounts also provision users and
+    groups via a separate SCIM API.
+- aid: oneflow:oneflow-comments-api
+  name: Oneflow Comments API
+  tags:
+  - Comments
+  - Collaboration
+  - Contracts
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://developer.oneflow.com/docs/contract.md
+  baseURL: https://api.oneflow.com/v1
+  properties:
+  - url: https://developer.oneflow.com/docs/contract.md
+    type: Documentation
+  - url: openapi/oneflow-openapi.yml
+    type: OpenAPI
+  - url: collections/oneflow.postman_collection.json
+    type: PostmanCollection
+  - url: collections/oneflow.opencollection.json
+    type: OpenCollection
+  description: Read the inline comments left on a contract during negotiation - the
+    threaded collaboration messages exchanged between internal users and counterparties
+    while a contract is being reviewed and agreed.
+common:
+- type: LinkedIn
+  url: https://www.linkedin.com/company/oneflowcom
+- type: Website
+  url: https://oneflow.com
+- type: Documentation
+  url: https://developer.oneflow.com
+- type: Plans
+  url: plans/oneflow-plans-pricing.yml
+- type: RateLimits
+  url: rate-limits/oneflow-rate-limits.yml
+- type: FinOps
+  url: finops/oneflow-finops.yml
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

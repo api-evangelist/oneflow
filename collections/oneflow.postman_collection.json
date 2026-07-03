@@ -1,0 +1,424 @@
+{
+  "info": {
+    "name": "Oneflow Public API",
+    "description": "Programmatic access to the Oneflow contract lifecycle management and e-signature platform. Base URL: https://api.oneflow.com/v1. Authentication uses the x-oneflow-api-token header plus, for most endpoints, an x-oneflow-user-email header for permission-scoped authorization. Endpoints marked (modeled) are inferred from Oneflow's documented resource model and REST conventions; ping, contract create/get/list/publish, templates, workspaces, and users are confirmed against the public docs.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "https://api.oneflow.com/v1", "type": "string" },
+    { "key": "apiToken", "value": "", "type": "string" },
+    { "key": "userEmail", "value": "", "type": "string" }
+  ],
+  "item": [
+    {
+      "name": "Ping",
+      "item": [
+        {
+          "name": "Ping the API",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "x-oneflow-api-token", "value": "{{apiToken}}" },
+              { "key": "x-oneflow-user-email", "value": "{{userEmail}}" },
+              { "key": "Accept", "value": "application/json" }
+            ],
+            "url": { "raw": "{{baseUrl}}/ping", "host": ["{{baseUrl}}"], "path": ["ping"] },
+            "description": "Validates connectivity and the API token. Returns 200 with an empty object."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Contracts",
+      "item": [
+        {
+          "name": "List contracts",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "x-oneflow-api-token", "value": "{{apiToken}}" },
+              { "key": "x-oneflow-user-email", "value": "{{userEmail}}" }
+            ],
+            "url": { "raw": "{{baseUrl}}/contracts", "host": ["{{baseUrl}}"], "path": ["contracts"] },
+            "description": "Retrieves the list of contracts available to the acting user."
+          }
+        },
+        {
+          "name": "Create a contract",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "x-oneflow-api-token", "value": "{{apiToken}}" },
+              { "key": "x-oneflow-user-email", "value": "{{userEmail}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": { "mode": "raw", "raw": "{\n  \"workspace_id\": 1,\n  \"template_id\": 1,\n  \"parties\": [],\n  \"data_fields\": []\n}" },
+            "url": { "raw": "{{baseUrl}}/contracts/create", "host": ["{{baseUrl}}"], "path": ["contracts", "create"] },
+            "description": "Creates a new contract in a workspace from a template."
+          }
+        },
+        {
+          "name": "Get a contract",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "x-oneflow-api-token", "value": "{{apiToken}}" },
+              { "key": "x-oneflow-user-email", "value": "{{userEmail}}" }
+            ],
+            "url": { "raw": "{{baseUrl}}/contracts/:contract_id", "host": ["{{baseUrl}}"], "path": ["contracts", ":contract_id"], "variable": [{ "key": "contract_id", "value": "" }] },
+            "description": "Retrieves a single contract by its ID."
+          }
+        },
+        {
+          "name": "Update a contract (modeled)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "x-oneflow-api-token", "value": "{{apiToken}}" },
+              { "key": "x-oneflow-user-email", "value": "{{userEmail}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": { "mode": "raw", "raw": "{}" },
+            "url": { "raw": "{{baseUrl}}/contracts/:contract_id", "host": ["{{baseUrl}}"], "path": ["contracts", ":contract_id"], "variable": [{ "key": "contract_id", "value": "" }] },
+            "description": "Updates the top-level information of a draft contract. Modeled."
+          }
+        },
+        {
+          "name": "Delete a contract (modeled)",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              { "key": "x-oneflow-api-token", "value": "{{apiToken}}" },
+              { "key": "x-oneflow-user-email", "value": "{{userEmail}}" }
+            ],
+            "url": { "raw": "{{baseUrl}}/contracts/:contract_id", "host": ["{{baseUrl}}"], "path": ["contracts", ":contract_id"], "variable": [{ "key": "contract_id", "value": "" }] },
+            "description": "Deletes a contract. Modeled."
+          }
+        },
+        {
+          "name": "Publish a contract",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "x-oneflow-api-token", "value": "{{apiToken}}" },
+              { "key": "x-oneflow-user-email", "value": "{{userEmail}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": { "mode": "raw", "raw": "{\n  \"subject\": \"Please sign\",\n  \"message\": \"Here is your contract.\"\n}" },
+            "url": { "raw": "{{baseUrl}}/contracts/:contract_id/publish", "host": ["{{baseUrl}}"], "path": ["contracts", ":contract_id", "publish"], "variable": [{ "key": "contract_id", "value": "" }] },
+            "description": "Publishes a draft contract, sending the invitation/signing message to its participants."
+          }
+        },
+        {
+          "name": "Copy a contract (modeled)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "x-oneflow-api-token", "value": "{{apiToken}}" },
+              { "key": "x-oneflow-user-email", "value": "{{userEmail}}" }
+            ],
+            "url": { "raw": "{{baseUrl}}/contracts/:contract_id/copy", "host": ["{{baseUrl}}"], "path": ["contracts", ":contract_id", "copy"], "variable": [{ "key": "contract_id", "value": "" }] },
+            "description": "Creates a copy of an existing contract. Modeled."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Contract Files",
+      "item": [
+        {
+          "name": "Download a contract file (modeled)",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "x-oneflow-api-token", "value": "{{apiToken}}" },
+              { "key": "x-oneflow-user-email", "value": "{{userEmail}}" }
+            ],
+            "url": { "raw": "{{baseUrl}}/contracts/:contract_id/contract_files", "host": ["{{baseUrl}}"], "path": ["contracts", ":contract_id", "contract_files"], "variable": [{ "key": "contract_id", "value": "" }] },
+            "description": "Downloads a file associated with a contract (PDF / signed document). Modeled."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Templates",
+      "item": [
+        {
+          "name": "Get templates",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "x-oneflow-api-token", "value": "{{apiToken}}" },
+              { "key": "x-oneflow-user-email", "value": "{{userEmail}}" }
+            ],
+            "url": { "raw": "{{baseUrl}}/templates", "host": ["{{baseUrl}}"], "path": ["templates"] },
+            "description": "Retrieves the templates available for the specified user."
+          }
+        },
+        {
+          "name": "Get template types (modeled)",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "x-oneflow-api-token", "value": "{{apiToken}}" },
+              { "key": "x-oneflow-user-email", "value": "{{userEmail}}" }
+            ],
+            "url": { "raw": "{{baseUrl}}/template_types", "host": ["{{baseUrl}}"], "path": ["template_types"] },
+            "description": "Retrieves the template types defined in the account. Modeled."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Workspaces",
+      "item": [
+        {
+          "name": "Get workspaces",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "x-oneflow-api-token", "value": "{{apiToken}}" },
+              { "key": "x-oneflow-user-email", "value": "{{userEmail}}" }
+            ],
+            "url": { "raw": "{{baseUrl}}/workspaces", "host": ["{{baseUrl}}"], "path": ["workspaces"] },
+            "description": "Retrieves the list of workspaces in the account."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Data Fields",
+      "item": [
+        {
+          "name": "Get contract data fields (modeled)",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "x-oneflow-api-token", "value": "{{apiToken}}" },
+              { "key": "x-oneflow-user-email", "value": "{{userEmail}}" }
+            ],
+            "url": { "raw": "{{baseUrl}}/contracts/:contract_id/data_fields", "host": ["{{baseUrl}}"], "path": ["contracts", ":contract_id", "data_fields"], "variable": [{ "key": "contract_id", "value": "" }] },
+            "description": "Retrieves the data fields on a contract. Modeled."
+          }
+        },
+        {
+          "name": "Update contract data fields (modeled)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "x-oneflow-api-token", "value": "{{apiToken}}" },
+              { "key": "x-oneflow-user-email", "value": "{{userEmail}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": { "mode": "raw", "raw": "{\n  \"data_fields\": []\n}" },
+            "url": { "raw": "{{baseUrl}}/contracts/:contract_id/data_fields", "host": ["{{baseUrl}}"], "path": ["contracts", ":contract_id", "data_fields"], "variable": [{ "key": "contract_id", "value": "" }] },
+            "description": "Updates the values of data fields on a draft contract. Modeled."
+          }
+        },
+        {
+          "name": "Get template type data fields (modeled)",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "x-oneflow-api-token", "value": "{{apiToken}}" },
+              { "key": "x-oneflow-user-email", "value": "{{userEmail}}" }
+            ],
+            "url": { "raw": "{{baseUrl}}/template_types/:template_type_id/data_fields", "host": ["{{baseUrl}}"], "path": ["template_types", ":template_type_id", "data_fields"], "variable": [{ "key": "template_type_id", "value": "" }] },
+            "description": "Retrieves the data fields defined on a template type. Modeled."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Parties",
+      "item": [
+        {
+          "name": "Add a party (modeled)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "x-oneflow-api-token", "value": "{{apiToken}}" },
+              { "key": "x-oneflow-user-email", "value": "{{userEmail}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": { "mode": "raw", "raw": "{}" },
+            "url": { "raw": "{{baseUrl}}/contracts/:contract_id/parties", "host": ["{{baseUrl}}"], "path": ["contracts", ":contract_id", "parties"], "variable": [{ "key": "contract_id", "value": "" }] },
+            "description": "Adds a counterparty (company or individual) to a draft contract. Modeled."
+          }
+        },
+        {
+          "name": "Update a party (modeled)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "x-oneflow-api-token", "value": "{{apiToken}}" },
+              { "key": "x-oneflow-user-email", "value": "{{userEmail}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": { "mode": "raw", "raw": "{}" },
+            "url": { "raw": "{{baseUrl}}/contracts/:contract_id/parties/:party_id", "host": ["{{baseUrl}}"], "path": ["contracts", ":contract_id", "parties", ":party_id"], "variable": [{ "key": "contract_id", "value": "" }, { "key": "party_id", "value": "" }] },
+            "description": "Updates a party on a draft contract. Modeled."
+          }
+        },
+        {
+          "name": "Delete a party (modeled)",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              { "key": "x-oneflow-api-token", "value": "{{apiToken}}" },
+              { "key": "x-oneflow-user-email", "value": "{{userEmail}}" }
+            ],
+            "url": { "raw": "{{baseUrl}}/contracts/:contract_id/parties/:party_id", "host": ["{{baseUrl}}"], "path": ["contracts", ":contract_id", "parties", ":party_id"], "variable": [{ "key": "contract_id", "value": "" }, { "key": "party_id", "value": "" }] },
+            "description": "Removes a party from a draft contract. Modeled."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Participants",
+      "item": [
+        {
+          "name": "Add a participant (modeled)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "x-oneflow-api-token", "value": "{{apiToken}}" },
+              { "key": "x-oneflow-user-email", "value": "{{userEmail}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": { "mode": "raw", "raw": "{\n  \"name\": \"Jane Doe\",\n  \"email\": \"jane@example.com\",\n  \"signatory\": true\n}" },
+            "url": { "raw": "{{baseUrl}}/contracts/:contract_id/parties/:party_id/participants", "host": ["{{baseUrl}}"], "path": ["contracts", ":contract_id", "parties", ":party_id", "participants"], "variable": [{ "key": "contract_id", "value": "" }, { "key": "party_id", "value": "" }] },
+            "description": "Adds a participant (signatory or viewer) to a party on a draft contract. Modeled."
+          }
+        },
+        {
+          "name": "Update a participant (modeled)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "x-oneflow-api-token", "value": "{{apiToken}}" },
+              { "key": "x-oneflow-user-email", "value": "{{userEmail}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": { "mode": "raw", "raw": "{}" },
+            "url": { "raw": "{{baseUrl}}/contracts/:contract_id/parties/:party_id/participants/:participant_id", "host": ["{{baseUrl}}"], "path": ["contracts", ":contract_id", "parties", ":party_id", "participants", ":participant_id"], "variable": [{ "key": "contract_id", "value": "" }, { "key": "party_id", "value": "" }, { "key": "participant_id", "value": "" }] },
+            "description": "Updates a participant on a draft contract. Modeled."
+          }
+        },
+        {
+          "name": "Delete a participant (modeled)",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              { "key": "x-oneflow-api-token", "value": "{{apiToken}}" },
+              { "key": "x-oneflow-user-email", "value": "{{userEmail}}" }
+            ],
+            "url": { "raw": "{{baseUrl}}/contracts/:contract_id/parties/:party_id/participants/:participant_id", "host": ["{{baseUrl}}"], "path": ["contracts", ":contract_id", "parties", ":party_id", "participants", ":participant_id"], "variable": [{ "key": "contract_id", "value": "" }, { "key": "party_id", "value": "" }, { "key": "participant_id", "value": "" }] },
+            "description": "Removes a participant from a party on a draft contract. Modeled."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Webhooks",
+      "item": [
+        {
+          "name": "List webhooks (modeled)",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "x-oneflow-api-token", "value": "{{apiToken}}" },
+              { "key": "x-oneflow-user-email", "value": "{{userEmail}}" }
+            ],
+            "url": { "raw": "{{baseUrl}}/webhooks", "host": ["{{baseUrl}}"], "path": ["webhooks"] },
+            "description": "Lists the webhook subscriptions configured in the account. Modeled."
+          }
+        },
+        {
+          "name": "Create a webhook (modeled)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "x-oneflow-api-token", "value": "{{apiToken}}" },
+              { "key": "x-oneflow-user-email", "value": "{{userEmail}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": { "mode": "raw", "raw": "{\n  \"callback_url\": \"https://example.com/oneflow-webhook\",\n  \"sign_key\": \"secret\",\n  \"subscriptions\": [\"contract:publish\", \"contract:signed\"]\n}" },
+            "url": { "raw": "{{baseUrl}}/webhooks", "host": ["{{baseUrl}}"], "path": ["webhooks"] },
+            "description": "Creates a webhook subscription that delivers contract lifecycle events to a callback URL. Modeled."
+          }
+        },
+        {
+          "name": "Get a webhook (modeled)",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "x-oneflow-api-token", "value": "{{apiToken}}" },
+              { "key": "x-oneflow-user-email", "value": "{{userEmail}}" }
+            ],
+            "url": { "raw": "{{baseUrl}}/webhooks/:webhook_id", "host": ["{{baseUrl}}"], "path": ["webhooks", ":webhook_id"], "variable": [{ "key": "webhook_id", "value": "" }] },
+            "description": "Retrieves a single webhook subscription. Modeled."
+          }
+        },
+        {
+          "name": "Delete a webhook (modeled)",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              { "key": "x-oneflow-api-token", "value": "{{apiToken}}" },
+              { "key": "x-oneflow-user-email", "value": "{{userEmail}}" }
+            ],
+            "url": { "raw": "{{baseUrl}}/webhooks/:webhook_id", "host": ["{{baseUrl}}"], "path": ["webhooks", ":webhook_id"], "variable": [{ "key": "webhook_id", "value": "" }] },
+            "description": "Deletes a webhook subscription. Modeled."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Users",
+      "item": [
+        {
+          "name": "Get users in an account",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "x-oneflow-api-token", "value": "{{apiToken}}" },
+              { "key": "x-oneflow-user-email", "value": "{{userEmail}}" }
+            ],
+            "url": { "raw": "{{baseUrl}}/users", "host": ["{{baseUrl}}"], "path": ["users"] },
+            "description": "Retrieves the list of users in the account."
+          }
+        },
+        {
+          "name": "Get a user (modeled)",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "x-oneflow-api-token", "value": "{{apiToken}}" },
+              { "key": "x-oneflow-user-email", "value": "{{userEmail}}" }
+            ],
+            "url": { "raw": "{{baseUrl}}/users/:user_id", "host": ["{{baseUrl}}"], "path": ["users", ":user_id"], "variable": [{ "key": "user_id", "value": "" }] },
+            "description": "Retrieves a single user by ID. Modeled."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Comments",
+      "item": [
+        {
+          "name": "Get contract comments (modeled)",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "x-oneflow-api-token", "value": "{{apiToken}}" },
+              { "key": "x-oneflow-user-email", "value": "{{userEmail}}" }
+            ],
+            "url": { "raw": "{{baseUrl}}/contracts/:contract_id/comments", "host": ["{{baseUrl}}"], "path": ["contracts", ":contract_id", "comments"], "variable": [{ "key": "contract_id", "value": "" }] },
+            "description": "Retrieves the inline comments left on a contract during negotiation. Modeled."
+          }
+        }
+      ]
+    }
+  ]
+}

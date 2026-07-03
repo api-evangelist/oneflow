@@ -1,0 +1,954 @@
+openapi: 3.0.3
+info:
+  title: Oneflow Public API
+  description: >-
+    The Oneflow Public API is a REST API for the Oneflow contract lifecycle
+    management and e-signature platform. It lets teams programmatically create
+    contracts from templates, add parties and participants, fill data fields and
+    products, publish contracts for signing, download signed files, manage users
+    and workspaces, and subscribe to contract lifecycle events via webhooks.
+
+    Authentication uses two HTTP headers on every request: `x-oneflow-api-token`
+    (an account API token generated in the Oneflow Marketplace) and, for most
+    endpoints, `x-oneflow-user-email` (the email of the acting Oneflow user, used
+    for permission-scoped authorization; omitting it runs the request as an
+    anonymous admin user). API access and webhooks are available on the Business
+    and Enterprise plans.
+
+    Endpoint coverage note: /ping, contract create/get/list/publish, templates,
+    workspaces, and users are confirmed against Oneflow's public documentation.
+    The remaining paths (contract delete/copy, data fields, parties,
+    participants, webhooks, comments) are modeled from Oneflow's documented
+    resource models and REST conventions; verify exact shapes against the live
+    reference before production use.
+  version: '1.0'
+  contact:
+    name: Oneflow
+    url: https://developer.oneflow.com
+  termsOfService: https://oneflow.com/terms-of-service/
+servers:
+  - url: https://api.oneflow.com/v1
+    description: Oneflow Public API (production)
+security:
+  - apiToken: []
+    userEmail: []
+tags:
+  - name: Ping
+    description: Health check and token validation.
+  - name: Contracts
+    description: Create, retrieve, update, publish, copy, and delete contracts.
+  - name: Contract Files
+    description: Download the files (PDF / signed documents) attached to a contract.
+  - name: Templates
+    description: Templates and template types used to create contracts.
+  - name: Workspaces
+    description: Organizational containers that scope templates and contracts.
+  - name: Data Fields
+    description: Custom / merge fields on contracts and template types.
+  - name: Parties
+    description: Counterparty companies or individuals on a contract.
+  - name: Participants
+    description: Signatories and viewers belonging to a party.
+  - name: Webhooks
+    description: Subscriptions delivering contract lifecycle events to a callback URL.
+  - name: Users
+    description: Users in an account.
+  - name: Comments
+    description: Inline collaboration comments on a contract.
+paths:
+  /ping:
+    get:
+      operationId: ping
+      tags:
+        - Ping
+      summary: Ping the API
+      description: Validates connectivity and the API token. Returns 200 with an empty object on success.
+      responses:
+        '200':
+          description: Token is valid.
+          content:
+            application/json:
+              schema:
+                type: object
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /contracts:
+    get:
+      operationId: listContracts
+      tags:
+        - Contracts
+      summary: List contracts
+      description: Retrieves the list of contracts available to the acting user.
+      parameters:
+        - $ref: '#/components/parameters/offset'
+        - $ref: '#/components/parameters/limit'
+      responses:
+        '200':
+          description: A list of contracts.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Contract'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /contracts/create:
+    post:
+      operationId: createContract
+      tags:
+        - Contracts
+      summary: Create a contract
+      description: >-
+        Creates a new contract in a workspace from a template. Requires a
+        `workspace_id` and `template_id`, and typically the parties, data
+        fields, and products to populate.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ContractCreateRequest'
+      responses:
+        '200':
+          description: The created contract.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Contract'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /contracts/{contract_id}:
+    parameters:
+      - $ref: '#/components/parameters/contractId'
+    get:
+      operationId: getContract
+      tags:
+        - Contracts
+      summary: Get a contract
+      description: Retrieves a single contract by its ID.
+      responses:
+        '200':
+          description: The contract.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Contract'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    put:
+      operationId: updateContract
+      tags:
+        - Contracts
+      summary: Update a contract
+      description: Updates the top-level information of a draft contract (modeled).
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: The updated contract.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Contract'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    delete:
+      operationId: deleteContract
+      tags:
+        - Contracts
+      summary: Delete a contract
+      description: Deletes a contract (modeled).
+      responses:
+        '204':
+          description: The contract was deleted.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /contracts/{contract_id}/publish:
+    parameters:
+      - $ref: '#/components/parameters/contractId'
+    post:
+      operationId: publishContract
+      tags:
+        - Contracts
+      summary: Publish a contract
+      description: >-
+        Publishes a draft contract, sending the invitation/signing message to its
+        participants.
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PublishRequest'
+      responses:
+        '200':
+          description: The published contract.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Contract'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /contracts/{contract_id}/copy:
+    parameters:
+      - $ref: '#/components/parameters/contractId'
+    post:
+      operationId: copyContract
+      tags:
+        - Contracts
+      summary: Copy a contract
+      description: Creates a copy of an existing contract (modeled).
+      responses:
+        '200':
+          description: The copied contract.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Contract'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /contracts/{contract_id}/contract_files:
+    parameters:
+      - $ref: '#/components/parameters/contractId'
+    get:
+      operationId: getContractFile
+      tags:
+        - Contract Files
+      summary: Download a contract file
+      description: >-
+        Downloads a file associated with a contract (for example the PDF or the
+        signed document). Returns the binary file (modeled).
+      responses:
+        '200':
+          description: The contract file.
+          content:
+            application/pdf:
+              schema:
+                type: string
+                format: binary
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /templates:
+    get:
+      operationId: getTemplates
+      tags:
+        - Templates
+      summary: Get templates
+      description: Retrieves the templates available for the specified user.
+      parameters:
+        - $ref: '#/components/parameters/offset'
+        - $ref: '#/components/parameters/limit'
+        - name: template_type_id
+          in: query
+          schema:
+            type: integer
+          description: Filter templates by template type.
+        - name: filter[workspace_ids]
+          in: query
+          schema:
+            type: string
+          description: Comma-separated list of workspace IDs.
+        - name: filter[active]
+          in: query
+          schema:
+            type: boolean
+            default: true
+          description: Filter by active state.
+      responses:
+        '200':
+          description: A list of templates.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Template'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /template_types:
+    get:
+      operationId: getTemplateTypes
+      tags:
+        - Templates
+      summary: Get template types
+      description: Retrieves the template types defined in the account (modeled).
+      responses:
+        '200':
+          description: A list of template types.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/TemplateType'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /template_types/{template_type_id}/data_fields:
+    parameters:
+      - name: template_type_id
+        in: path
+        required: true
+        schema:
+          type: integer
+    get:
+      operationId: getTemplateTypeDataFields
+      tags:
+        - Data Fields
+      summary: Get template type data fields
+      description: Retrieves the data fields defined on a template type (modeled).
+      responses:
+        '200':
+          description: A list of data fields.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/DataField'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /workspaces:
+    get:
+      operationId: getWorkspaces
+      tags:
+        - Workspaces
+      summary: Get workspaces
+      description: Retrieves the list of workspaces in the account.
+      parameters:
+        - $ref: '#/components/parameters/offset'
+        - $ref: '#/components/parameters/limit'
+        - name: filter[name]
+          in: query
+          schema:
+            type: string
+          description: Filter by workspace name.
+        - name: filter[id]
+          in: query
+          schema:
+            type: string
+          description: Comma-separated list of workspace IDs.
+      responses:
+        '200':
+          description: A list of workspaces.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Workspace'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /contracts/{contract_id}/data_fields:
+    parameters:
+      - $ref: '#/components/parameters/contractId'
+    get:
+      operationId: getContractDataFields
+      tags:
+        - Data Fields
+      summary: Get contract data fields
+      description: Retrieves the data fields on a contract (modeled).
+      responses:
+        '200':
+          description: A list of data fields.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/DataField'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    put:
+      operationId: updateContractDataFields
+      tags:
+        - Data Fields
+      summary: Update contract data fields
+      description: Updates the values of data fields on a draft contract (modeled).
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data_fields:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/DataField'
+      responses:
+        '200':
+          description: The updated data fields.
+          content:
+            application/json:
+              schema:
+                type: object
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /contracts/{contract_id}/parties:
+    parameters:
+      - $ref: '#/components/parameters/contractId'
+    post:
+      operationId: createParty
+      tags:
+        - Parties
+      summary: Add a party to a contract
+      description: Adds a counterparty (company or individual) to a draft contract (modeled).
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Party'
+      responses:
+        '200':
+          description: The created party.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Party'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /contracts/{contract_id}/parties/{party_id}:
+    parameters:
+      - $ref: '#/components/parameters/contractId'
+      - $ref: '#/components/parameters/partyId'
+    put:
+      operationId: updateParty
+      tags:
+        - Parties
+      summary: Update a party
+      description: Updates a party on a draft contract (modeled).
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Party'
+      responses:
+        '200':
+          description: The updated party.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Party'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    delete:
+      operationId: deleteParty
+      tags:
+        - Parties
+      summary: Delete a party
+      description: Removes a party from a draft contract (modeled).
+      responses:
+        '204':
+          description: The party was removed.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /contracts/{contract_id}/parties/{party_id}/participants:
+    parameters:
+      - $ref: '#/components/parameters/contractId'
+      - $ref: '#/components/parameters/partyId'
+    post:
+      operationId: createParticipant
+      tags:
+        - Participants
+      summary: Add a participant to a party
+      description: Adds a participant (signatory or viewer) to a party on a draft contract (modeled).
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Participant'
+      responses:
+        '200':
+          description: The created participant.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Participant'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /contracts/{contract_id}/parties/{party_id}/participants/{participant_id}:
+    parameters:
+      - $ref: '#/components/parameters/contractId'
+      - $ref: '#/components/parameters/partyId'
+      - name: participant_id
+        in: path
+        required: true
+        schema:
+          type: integer
+    put:
+      operationId: updateParticipant
+      tags:
+        - Participants
+      summary: Update a participant
+      description: Updates a participant on a draft contract (modeled).
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Participant'
+      responses:
+        '200':
+          description: The updated participant.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Participant'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    delete:
+      operationId: deleteParticipant
+      tags:
+        - Participants
+      summary: Delete a participant
+      description: Removes a participant from a party on a draft contract (modeled).
+      responses:
+        '204':
+          description: The participant was removed.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /webhooks:
+    get:
+      operationId: listWebhooks
+      tags:
+        - Webhooks
+      summary: List webhooks
+      description: Lists the webhook subscriptions configured in the account (modeled).
+      responses:
+        '200':
+          description: A list of webhooks.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Webhook'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    post:
+      operationId: createWebhook
+      tags:
+        - Webhooks
+      summary: Create a webhook
+      description: >-
+        Creates a webhook subscription that delivers contract lifecycle events to
+        a callback URL, optionally filtered by event type and workspace (modeled).
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Webhook'
+      responses:
+        '200':
+          description: The created webhook.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Webhook'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /webhooks/{webhook_id}:
+    parameters:
+      - name: webhook_id
+        in: path
+        required: true
+        schema:
+          type: integer
+    get:
+      operationId: getWebhook
+      tags:
+        - Webhooks
+      summary: Get a webhook
+      description: Retrieves a single webhook subscription (modeled).
+      responses:
+        '200':
+          description: The webhook.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Webhook'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    delete:
+      operationId: deleteWebhook
+      tags:
+        - Webhooks
+      summary: Delete a webhook
+      description: Deletes a webhook subscription (modeled).
+      responses:
+        '204':
+          description: The webhook was deleted.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /users:
+    get:
+      operationId: getUsers
+      tags:
+        - Users
+      summary: Get users in an account
+      description: Retrieves the list of users in the account.
+      parameters:
+        - $ref: '#/components/parameters/offset'
+        - $ref: '#/components/parameters/limit'
+      responses:
+        '200':
+          description: A list of users.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/User'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /users/{user_id}:
+    parameters:
+      - name: user_id
+        in: path
+        required: true
+        schema:
+          type: integer
+    get:
+      operationId: getUser
+      tags:
+        - Users
+      summary: Get a user
+      description: Retrieves a single user by ID (modeled).
+      responses:
+        '200':
+          description: The user.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /contracts/{contract_id}/comments:
+    parameters:
+      - $ref: '#/components/parameters/contractId'
+    get:
+      operationId: getContractComments
+      tags:
+        - Comments
+      summary: Get contract comments
+      description: Retrieves the inline comments left on a contract during negotiation (modeled).
+      responses:
+        '200':
+          description: A list of comments.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Comment'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+components:
+  securitySchemes:
+    apiToken:
+      type: apiKey
+      in: header
+      name: x-oneflow-api-token
+      description: Account API token generated in the Oneflow Marketplace.
+    userEmail:
+      type: apiKey
+      in: header
+      name: x-oneflow-user-email
+      description: >-
+        Email of the acting Oneflow user, used for permission-scoped
+        authorization. Optional on some endpoints; omitting it runs the request
+        as an anonymous admin user.
+  parameters:
+    offset:
+      name: offset
+      in: query
+      schema:
+        type: integer
+        minimum: 0
+        maximum: 19900
+        default: 0
+      description: Pagination offset.
+    limit:
+      name: limit
+      in: query
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 100
+      description: Maximum number of results to return.
+    contractId:
+      name: contract_id
+      in: path
+      required: true
+      schema:
+        type: integer
+      description: The ID of the contract.
+    partyId:
+      name: party_id
+      in: path
+      required: true
+      schema:
+        type: integer
+      description: The ID of the party.
+  responses:
+    BadRequest:
+      description: The request was malformed or invalid.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Missing or invalid API token / user email.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  schemas:
+    Contract:
+      type: object
+      properties:
+        id:
+          type: integer
+        state:
+          type: string
+          description: Contract state (e.g. draft, pending, signed, declined).
+        template_id:
+          type: integer
+        workspace_id:
+          type: integer
+        name:
+          type: string
+        created_time:
+          type: string
+          format: date-time
+        updated_time:
+          type: string
+          format: date-time
+    ContractCreateRequest:
+      type: object
+      required:
+        - workspace_id
+        - template_id
+      properties:
+        workspace_id:
+          type: integer
+        template_id:
+          type: integer
+        parties:
+          type: array
+          items:
+            $ref: '#/components/schemas/Party'
+        data_fields:
+          type: array
+          items:
+            $ref: '#/components/schemas/DataField'
+    PublishRequest:
+      type: object
+      properties:
+        subject:
+          type: string
+          description: Subject line of the invitation message.
+        message:
+          type: string
+          description: Body of the invitation message sent to participants.
+    Template:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        template_type_id:
+          type: integer
+        workspace_id:
+          type: integer
+        active:
+          type: boolean
+    TemplateType:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        extension_type:
+          type: string
+    Workspace:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        description:
+          type: string
+    DataField:
+      type: object
+      properties:
+        id:
+          type: integer
+        custom_id:
+          type: string
+        name:
+          type: string
+        value:
+          type: string
+    Party:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        country_code:
+          type: string
+        identification_number:
+          type: string
+        type:
+          type: string
+          description: Party type (e.g. company or individual).
+        participants:
+          type: array
+          items:
+            $ref: '#/components/schemas/Participant'
+    Participant:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        email:
+          type: string
+          format: email
+        phone_number:
+          type: string
+        signatory:
+          type: boolean
+        delivery_channel:
+          type: string
+        _permissions:
+          type: object
+    Webhook:
+      type: object
+      properties:
+        id:
+          type: integer
+        callback_url:
+          type: string
+          format: uri
+        sign_key:
+          type: string
+        active:
+          type: boolean
+        subscriptions:
+          type: array
+          description: Event types the webhook subscribes to.
+          items:
+            type: string
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        email:
+          type: string
+          format: email
+        active:
+          type: boolean
+        is_admin:
+          type: boolean
+    Comment:
+      type: object
+      properties:
+        id:
+          type: integer
+        message:
+          type: string
+        author_name:
+          type: string
+        created_time:
+          type: string
+          format: date-time
+    Error:
+      type: object
+      properties:
+        status_code:
+          type: integer
+        parameter_errors:
+          type: object
+        errors:
+          type: array
+          items:
+            type: object

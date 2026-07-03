@@ -1,0 +1,93 @@
+specification: FinOps Framework
+specificationVersion: '1.0'
+schema: https://www.finops.org/framework/
+provider: Oneflow
+providerId: oneflow
+created: '2026-07-03'
+modified: '2026-07-03'
+reconciled: false
+tags:
+- Contract Management
+- E-Signature
+- CLM
+- FinOps
+- Cost Management
+- FOCUS
+description: >-
+  FinOps view of Oneflow spend. Oneflow is a per-user SaaS subscription: cost is
+  driven primarily by the number of licensed seats and the plan tier (Essentials,
+  Business, Enterprise), billed annually. The Public API and webhooks do not carry
+  a separate metered fee - they are entitlements unlocked by the Business and
+  Enterprise plans, so API-driven automation is a fixed subscription cost rather
+  than usage-metered. Secondary costs come from add-ons: premium integrations
+  (Salesforce, Microsoft Dynamics) and advanced eID signature methods. The main
+  FinOps levers are seat right-sizing (deactivating unused users), choosing the
+  lowest tier that unlocks the needed capabilities (e.g. Business for API access),
+  and controlling per-signature or per-integration add-on consumption.
+notes: >-
+  Per-seat rates and add-on pricing are not reconciled here; verify on the Oneflow
+  pricing page and in the customer contract. Currency shown publicly is EUR;
+  enterprise agreements are custom-quoted and may be in other currencies.
+sources:
+- https://oneflow.com/pricing/
+- https://developer.oneflow.com/docs/getting-started
+- https://focus.finops.org/focus-specification/v1-3/
+alignedWith:
+  framework: FinOps Foundation Framework
+  frameworkUrl: https://www.finops.org/framework/
+  dataSpec: FOCUS
+  dataSpecVersion: '1.3'
+  dataSpecUrl: https://focus.finops.org/focus-specification/v1-3/
+publisherName: Oneflow
+serviceCategory: Contract Lifecycle Management and E-Signature
+billingModel:
+  pricingCategory: Subscription-Based
+  billingFrequency: Annual
+  billingCurrency: EUR
+  chargeCategories:
+  - Purchase
+  - Usage
+  - Adjustment
+focusColumns:
+  ServiceName: Oneflow
+  ServiceCategory: Contract Lifecycle Management and E-Signature
+  ProviderName: Oneflow
+  PublisherName: Oneflow
+  InvoiceIssuerName: Oneflow
+  BillingCurrency: EUR
+  ChargeCategory: Purchase
+  PricingCategory: Subscription-Based
+meters:
+- name: licensed_seats
+  description: Number of licensed Oneflow users per plan tier - the primary billing driver.
+  unit: seats
+  aggregation: sum
+  dimensions:
+  - account
+  - plan
+  - workspace
+- name: eid_signatures
+  description: Advanced electronic identification (eID) signature methods consumed, priced as an add-on.
+  unit: signatures
+  aggregation: sum
+  dimensions:
+  - account
+  - workspace
+- name: premium_integrations
+  description: Premium integration add-ons (Salesforce, Microsoft Dynamics) enabled on the account.
+  unit: integrations
+  aggregation: sum
+  dimensions:
+  - account
+principles:
+- name: Visibility
+  description: Track licensed seats per plan and workspace, plus any eID signature and premium integration add-on consumption, against the annual subscription.
+- name: Allocation
+  description: Map seats and workspaces to teams or cost centers so subscription cost is attributed to the business units using Oneflow.
+- name: Optimization
+  description: Right-size seats by deactivating unused users, pick the lowest tier that unlocks required capabilities (Business unlocks Public API and webhooks), and control add-on eID/integration usage.
+- name: Accountability
+  description: Assign an owner per account/workspace to review seat counts and add-on charges at renewal against actual contract volume and integration needs.
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

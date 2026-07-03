@@ -1,0 +1,128 @@
+aid: oneflow
+name: Oneflow
+review:
+  question: Does Oneflow expose a documented public WebSocket API?
+  answer: false
+  date: '2026-07-03'
+  reviewer: API Evangelist
+  asyncapiSpecCreated: false
+  asyncapiScopeNote: |
+    No AsyncAPI document was authored. Oneflow's own public developer surface is
+    a request/response REST API over HTTPS (base https://api.oneflow.com/v1).
+    Oneflow's asynchronous/event delivery is done with outbound HTTP webhooks -
+    Oneflow POSTs contract lifecycle events (published, signed, declined, etc.)
+    to a callback URL you register. There is no server-push transport
+    (WebSocket ws:// or wss://, or SSE) on Oneflow's own API to model, so no
+    AsyncAPI document was created.
+findings:
+  summary: |
+    Oneflow does not publish a documented public WebSocket API. Oneflow is a
+    contract lifecycle management (CLM) and e-signature platform. Its Public
+    API is a REST API at https://api.oneflow.com/v1, authenticated with two
+    HTTP headers: x-oneflow-api-token (an account API token generated in the
+    Oneflow Marketplace) and, for most endpoints, x-oneflow-user-email (the
+    acting user's email, used for permission-scoped authorization). The API is
+    pure request/response REST over HTTPS covering contracts, templates,
+    workspaces, data fields, parties/participants, users, comments, and
+    webhooks. Event delivery is handled by outbound HTTP webhooks that POST
+    contract lifecycle events to a registered callback URL - not by a
+    WebSocket. No realtime, bidirectional, or streaming WebSocket endpoint is
+    documented anywhere in Oneflow's developer documentation as of the review
+    date.
+  openSource: |
+    Oneflow's platform is a proprietary commercial SaaS; there is no open-source
+    core. The company (Oneflow AB, Stockholm, ticker ONEF.ST) does not maintain
+    a public GitHub organization for the product - github.com/oneflow belongs to
+    an unrelated London print-production company. Oneflow publishes SDKs/client
+    libraries and integration guides through its developer portal, but the
+    engine itself is closed source. Public API and webhook access are gated to
+    the Business and Enterprise subscription tiers.
+  transports:
+    - protocol: REST
+      scheme: https
+      baseURL: https://api.oneflow.com/v1
+      documented: true
+      note: The Oneflow Public API - contracts, templates, workspaces, data fields, parties, participants, users, comments, webhooks. Request/response only.
+    - protocol: Webhook
+      scheme: https
+      documented: true
+      note: Oneflow POSTs contract lifecycle events (published, signed, declined, etc.) to a registered callback URL. Outbound server-to-endpoint HTTP, not WebSocket.
+    - protocol: SCIM
+      scheme: https
+      documented: true
+      note: Enterprise accounts provision users and groups via a separate SCIM 2.0 API. Still request/response REST.
+    - protocol: WebSocket
+      scheme: wss
+      documented: false
+      note: No WebSocket endpoint is documented anywhere in Oneflow's developer documentation as of the review date.
+  endpointsConfirmedRest:
+    - GET    https://api.oneflow.com/v1/ping
+    - GET    https://api.oneflow.com/v1/contracts
+    - POST   https://api.oneflow.com/v1/contracts/create
+    - GET    https://api.oneflow.com/v1/contracts/{contract_id}
+    - POST   https://api.oneflow.com/v1/contracts/{contract_id}/publish
+    - GET    https://api.oneflow.com/v1/templates
+    - GET    https://api.oneflow.com/v1/workspaces
+    - GET    https://api.oneflow.com/v1/users
+  endpointsModeled:
+    - PUT    https://api.oneflow.com/v1/contracts/{contract_id}
+    - DELETE https://api.oneflow.com/v1/contracts/{contract_id}
+    - POST   https://api.oneflow.com/v1/contracts/{contract_id}/copy
+    - GET    https://api.oneflow.com/v1/contracts/{contract_id}/contract_files
+    - GET    https://api.oneflow.com/v1/template_types
+    - GET    https://api.oneflow.com/v1/template_types/{template_type_id}/data_fields
+    - GET    https://api.oneflow.com/v1/contracts/{contract_id}/data_fields
+    - PUT    https://api.oneflow.com/v1/contracts/{contract_id}/data_fields
+    - POST   https://api.oneflow.com/v1/contracts/{contract_id}/parties
+    - PUT    https://api.oneflow.com/v1/contracts/{contract_id}/parties/{party_id}
+    - DELETE https://api.oneflow.com/v1/contracts/{contract_id}/parties/{party_id}
+    - POST   https://api.oneflow.com/v1/contracts/{contract_id}/parties/{party_id}/participants
+    - PUT    https://api.oneflow.com/v1/contracts/{contract_id}/parties/{party_id}/participants/{participant_id}
+    - DELETE https://api.oneflow.com/v1/contracts/{contract_id}/parties/{party_id}/participants/{participant_id}
+    - GET    https://api.oneflow.com/v1/webhooks
+    - POST   https://api.oneflow.com/v1/webhooks
+    - GET    https://api.oneflow.com/v1/webhooks/{webhook_id}
+    - DELETE https://api.oneflow.com/v1/webhooks/{webhook_id}
+    - GET    https://api.oneflow.com/v1/users/{user_id}
+    - GET    https://api.oneflow.com/v1/contracts/{contract_id}/comments
+sources:
+  - url: https://developer.oneflow.com/docs/getting-started
+    type: Documentation
+    note: Base URL https://api.oneflow.com/v1, token auth, resource overview, /ping health check.
+  - url: https://developer.oneflow.com/docs/authentication-and-authorization
+    type: Documentation
+    note: x-oneflow-api-token plus x-oneflow-user-email header auth; no rate limits mentioned.
+  - url: https://developer.oneflow.com/docs/create-a-basic-contract
+    type: APIReference
+    note: POST /v1/contracts/create with workspace_id and template_id.
+  - url: https://developer.oneflow.com/docs/publish-a-contract
+    type: APIReference
+    note: POST /v1/contracts/{contract_id}/publish sends the signing invitation.
+  - url: https://developer.oneflow.com/reference/get-templates
+    type: APIReference
+    note: GET /v1/templates with offset/limit and workspace/template-type filters.
+  - url: https://developer.oneflow.com/reference/get-workspaces
+    type: APIReference
+    note: GET /v1/workspaces with pagination and name/id filters.
+  - url: https://developer.oneflow.com/docs/webhook.md
+    type: Documentation
+    note: Webhooks deliver contract events (EVENT_TYPE, WORKSPACE filters) to a callback URL. HTTP, not WebSocket.
+  - url: https://developer.oneflow.com/llms.txt
+    type: Documentation
+    note: Machine-readable index listing contract, participant, party, data-field, template, user, workspace, webhook resources.
+  - url: https://support.oneflow.com/support/solutions/articles/77000539022-public-api
+    type: Documentation
+    note: Public API help-center overview (token generation in Marketplace).
+  - url: https://oneflow.com/pricing/
+    type: Pricing
+    note: Per-user SaaS tiers; API and webhooks gated to Business and Enterprise plans.
+actions:
+  asyncapiPath: null
+  apisYmlUpdated: true
+  reason: |
+    No WebSocket protocol surface exists on Oneflow's own API. Oneflow's public
+    surface is request/response REST (the Public API) plus outbound HTTP
+    webhooks for event delivery. No AsyncAPI document was created because there
+    is no server-push (WebSocket/SSE) transport on Oneflow's own API to model;
+    webhooks are ordinary outbound HTTP callbacks and are represented in the
+    Webhooks API entry in apis.yml.

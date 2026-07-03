@@ -1,0 +1,141 @@
+specification: API Commons Plans
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/Plans
+provider: Oneflow
+providerId: oneflow
+created: '2026-07-03'
+modified: '2026-07-03'
+reconciled: false
+tags:
+- Contract Management
+- E-Signature
+- CLM
+- Plans
+description: >-
+  Oneflow is sold as a per-user SaaS subscription with tiered plans. Pricing is
+  published per user per month (billed annually) and public list prices are shown
+  in EUR. A 14-day free trial of the full platform is available. The Essentials
+  tier covers digital contracts and templates; the Business tier (from 5 users)
+  adds lifecycle management, multiple workspaces, data retention, and - critically
+  for integrators - Public API access and webhooks; the Enterprise tier (from 10
+  users) adds SSO, the SCIM provisioning API, shared templates, groups, and custom
+  admin roles. Public API and webhook access are gated to the Business and
+  Enterprise plans. Premium integrations (Salesforce, Microsoft Dynamics) and
+  advanced eID signing are priced as add-ons. Exact seat prices and add-on rates
+  are not reconciled here.
+notes: >-
+  Prices and plan packaging change; verify current tiers, currency, and the exact
+  plans that include Public API / webhook access on the Oneflow pricing page
+  during reconciliation. Public list price observed around EUR 17/user/mo
+  (Essentials) and EUR 45/user/mo (Business); Enterprise is custom-quoted.
+sources:
+- https://oneflow.com/pricing/
+- https://developer.oneflow.com/docs/getting-started
+- https://support.oneflow.com/support/solutions/articles/77000539022-public-api
+plans:
+- id: oneflow-trial
+  name: Free Trial
+  type: free
+  description: >-
+    A 14-day free trial with full Oneflow platform functionality for evaluation.
+  entries:
+  - label: Trial Period
+    name: trial_period
+    type: flat
+    metric: days
+    limit: 14
+    timeFrame: day
+    geo: global
+    unit: 1
+    price: free for 14 days
+    userMultiplied: false
+  elements:
+  - name: Full Platform Access
+  - name: Digital Contracts
+  - name: Templates
+- id: oneflow-essentials
+  name: Essentials
+  type: paid
+  description: >-
+    Entry paid tier for digital contracts and e-signing - digital contracts,
+    contract templates, contract insights, standard integrations, and the
+    contract calendar. Priced per user per month, billed annually.
+  entries:
+  - label: Per User
+    name: essentials_seat
+    type: flat
+    metric: seats
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: approx EUR 17 per user per month (billed annually)
+    userMultiplied: true
+  elements:
+  - name: Digital Contracts
+  - name: Contract Templates
+  - name: Contract Insights
+  - name: Standard Integrations
+  - name: Contract Calendar
+- id: oneflow-business
+  name: Business
+  type: paid
+  description: >-
+    Advanced tier (from 5 users) adding contract lifecycle management, multiple
+    workspaces and branding, approvals and signing order, inline comments, data
+    retention rules, Oneflow AI, and - for integrators - Public API access and
+    webhooks. Priced per user per month, billed annually.
+  entries:
+  - label: Per User
+    name: business_seat
+    type: flat
+    metric: seats
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: approx EUR 45 per user per month (billed annually, from 5 users)
+    userMultiplied: true
+  elements:
+  - name: Public API Access
+  - name: Webhooks
+  - name: Lifecycle Management
+  - name: Multiple Workspaces and Branding
+  - name: Approvals and Signing Order
+  - name: Data Retention Rules
+  - name: Oneflow AI
+- id: oneflow-enterprise
+  name: Enterprise
+  type: enterprise
+  description: >-
+    Custom tier (from 10 users) adding single sign-on (SSO), the SCIM
+    provisioning API, shared templates across workspaces, user groups, custom
+    admin roles, account audit log, and enhanced AI review/insights. Custom
+    pricing on request.
+  entries:
+  - label: Enterprise Agreement
+    name: enterprise
+    type: flat
+    metric: contract
+    limit: -1
+    timeFrame: year
+    geo: global
+    unit: 1
+    price: contact sales
+    userMultiplied: false
+  elements:
+  - name: Public API Access
+  - name: Webhooks
+  - name: Single Sign-On (SSO)
+  - name: SCIM Provisioning API
+  - name: Shared Templates
+  - name: User Groups and Custom Admin Roles
+  - name: Account Audit Log
+addOns:
+- name: Premium Integrations
+  description: Salesforce and Microsoft Dynamics integrations available at additional cost.
+- name: Advanced eID Signing
+  description: Electronic identification (eID) signature methods available as an add-on.
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

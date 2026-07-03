@@ -1,0 +1,335 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Oneflow Public API",
+    "version": "1.0",
+    "description": "Programmatic access to the Oneflow contract lifecycle management and e-signature platform. Base URL: https://api.oneflow.com/v1. Authentication uses the x-oneflow-api-token header plus, for most endpoints, an x-oneflow-user-email header for permission-scoped authorization."
+  },
+  "request": {
+    "headers": [
+      { "name": "x-oneflow-api-token", "value": "{{apiToken}}" },
+      { "name": "x-oneflow-user-email", "value": "{{userEmail}}" },
+      { "name": "Accept", "value": "application/json" }
+    ]
+  },
+  "items": [
+    {
+      "info": { "name": "Ping", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "Ping the API", "type": "http" },
+          "http": { "method": "GET", "url": "https://api.oneflow.com/v1/ping" },
+          "docs": "Validates connectivity and the API token. Returns 200 with an empty object."
+        }
+      ]
+    },
+    {
+      "info": { "name": "Contracts", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "List contracts", "type": "http" },
+          "http": { "method": "GET", "url": "https://api.oneflow.com/v1/contracts" },
+          "docs": "Retrieves the list of contracts available to the acting user."
+        },
+        {
+          "info": { "name": "Create a contract", "type": "http" },
+          "http": {
+            "method": "POST",
+            "url": "https://api.oneflow.com/v1/contracts/create",
+            "body": { "type": "json", "data": "{\n  \"workspace_id\": 1,\n  \"template_id\": 1,\n  \"parties\": [],\n  \"data_fields\": []\n}" }
+          },
+          "docs": "Creates a new contract in a workspace from a template."
+        },
+        {
+          "info": { "name": "Get a contract", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://api.oneflow.com/v1/contracts/:contract_id",
+            "params": [ { "name": "contract_id", "value": "", "type": "path", "description": "The ID of the contract." } ]
+          },
+          "docs": "Retrieves a single contract by its ID."
+        },
+        {
+          "info": { "name": "Update a contract (modeled)", "type": "http" },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.oneflow.com/v1/contracts/:contract_id",
+            "params": [ { "name": "contract_id", "value": "", "type": "path" } ],
+            "body": { "type": "json", "data": "{}" }
+          },
+          "docs": "Updates the top-level information of a draft contract. Modeled from Oneflow's resource model."
+        },
+        {
+          "info": { "name": "Delete a contract (modeled)", "type": "http" },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.oneflow.com/v1/contracts/:contract_id",
+            "params": [ { "name": "contract_id", "value": "", "type": "path" } ]
+          },
+          "docs": "Deletes a contract. Modeled."
+        },
+        {
+          "info": { "name": "Publish a contract", "type": "http" },
+          "http": {
+            "method": "POST",
+            "url": "https://api.oneflow.com/v1/contracts/:contract_id/publish",
+            "params": [ { "name": "contract_id", "value": "", "type": "path" } ],
+            "body": { "type": "json", "data": "{\n  \"subject\": \"Please sign\",\n  \"message\": \"Here is your contract.\"\n}" }
+          },
+          "docs": "Publishes a draft contract, sending the invitation/signing message to its participants."
+        },
+        {
+          "info": { "name": "Copy a contract (modeled)", "type": "http" },
+          "http": {
+            "method": "POST",
+            "url": "https://api.oneflow.com/v1/contracts/:contract_id/copy",
+            "params": [ { "name": "contract_id", "value": "", "type": "path" } ]
+          },
+          "docs": "Creates a copy of an existing contract. Modeled."
+        }
+      ]
+    },
+    {
+      "info": { "name": "Contract Files", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "Download a contract file (modeled)", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://api.oneflow.com/v1/contracts/:contract_id/contract_files",
+            "params": [ { "name": "contract_id", "value": "", "type": "path" } ]
+          },
+          "docs": "Downloads a file associated with a contract (PDF / signed document). Modeled."
+        }
+      ]
+    },
+    {
+      "info": { "name": "Templates", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "Get templates", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://api.oneflow.com/v1/templates",
+            "params": [
+              { "name": "template_type_id", "value": "", "type": "query" },
+              { "name": "filter[workspace_ids]", "value": "", "type": "query" },
+              { "name": "filter[active]", "value": "true", "type": "query" }
+            ]
+          },
+          "docs": "Retrieves the templates available for the specified user."
+        },
+        {
+          "info": { "name": "Get template types (modeled)", "type": "http" },
+          "http": { "method": "GET", "url": "https://api.oneflow.com/v1/template_types" },
+          "docs": "Retrieves the template types defined in the account. Modeled."
+        }
+      ]
+    },
+    {
+      "info": { "name": "Workspaces", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "Get workspaces", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://api.oneflow.com/v1/workspaces",
+            "params": [
+              { "name": "filter[name]", "value": "", "type": "query" },
+              { "name": "filter[id]", "value": "", "type": "query" }
+            ]
+          },
+          "docs": "Retrieves the list of workspaces in the account."
+        }
+      ]
+    },
+    {
+      "info": { "name": "Data Fields", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "Get contract data fields (modeled)", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://api.oneflow.com/v1/contracts/:contract_id/data_fields",
+            "params": [ { "name": "contract_id", "value": "", "type": "path" } ]
+          },
+          "docs": "Retrieves the data fields on a contract. Modeled."
+        },
+        {
+          "info": { "name": "Update contract data fields (modeled)", "type": "http" },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.oneflow.com/v1/contracts/:contract_id/data_fields",
+            "params": [ { "name": "contract_id", "value": "", "type": "path" } ],
+            "body": { "type": "json", "data": "{\n  \"data_fields\": []\n}" }
+          },
+          "docs": "Updates the values of data fields on a draft contract. Modeled."
+        },
+        {
+          "info": { "name": "Get template type data fields (modeled)", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://api.oneflow.com/v1/template_types/:template_type_id/data_fields",
+            "params": [ { "name": "template_type_id", "value": "", "type": "path" } ]
+          },
+          "docs": "Retrieves the data fields defined on a template type. Modeled."
+        }
+      ]
+    },
+    {
+      "info": { "name": "Parties", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "Add a party (modeled)", "type": "http" },
+          "http": {
+            "method": "POST",
+            "url": "https://api.oneflow.com/v1/contracts/:contract_id/parties",
+            "params": [ { "name": "contract_id", "value": "", "type": "path" } ],
+            "body": { "type": "json", "data": "{}" }
+          },
+          "docs": "Adds a counterparty (company or individual) to a draft contract. Modeled."
+        },
+        {
+          "info": { "name": "Update a party (modeled)", "type": "http" },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.oneflow.com/v1/contracts/:contract_id/parties/:party_id",
+            "params": [
+              { "name": "contract_id", "value": "", "type": "path" },
+              { "name": "party_id", "value": "", "type": "path" }
+            ],
+            "body": { "type": "json", "data": "{}" }
+          },
+          "docs": "Updates a party on a draft contract. Modeled."
+        },
+        {
+          "info": { "name": "Delete a party (modeled)", "type": "http" },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.oneflow.com/v1/contracts/:contract_id/parties/:party_id",
+            "params": [
+              { "name": "contract_id", "value": "", "type": "path" },
+              { "name": "party_id", "value": "", "type": "path" }
+            ]
+          },
+          "docs": "Removes a party from a draft contract. Modeled."
+        }
+      ]
+    },
+    {
+      "info": { "name": "Participants", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "Add a participant (modeled)", "type": "http" },
+          "http": {
+            "method": "POST",
+            "url": "https://api.oneflow.com/v1/contracts/:contract_id/parties/:party_id/participants",
+            "params": [
+              { "name": "contract_id", "value": "", "type": "path" },
+              { "name": "party_id", "value": "", "type": "path" }
+            ],
+            "body": { "type": "json", "data": "{\n  \"name\": \"Jane Doe\",\n  \"email\": \"jane@example.com\",\n  \"signatory\": true\n}" }
+          },
+          "docs": "Adds a participant (signatory or viewer) to a party on a draft contract. Modeled."
+        },
+        {
+          "info": { "name": "Update a participant (modeled)", "type": "http" },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.oneflow.com/v1/contracts/:contract_id/parties/:party_id/participants/:participant_id",
+            "params": [
+              { "name": "contract_id", "value": "", "type": "path" },
+              { "name": "party_id", "value": "", "type": "path" },
+              { "name": "participant_id", "value": "", "type": "path" }
+            ],
+            "body": { "type": "json", "data": "{}" }
+          },
+          "docs": "Updates a participant on a draft contract. Modeled."
+        },
+        {
+          "info": { "name": "Delete a participant (modeled)", "type": "http" },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.oneflow.com/v1/contracts/:contract_id/parties/:party_id/participants/:participant_id",
+            "params": [
+              { "name": "contract_id", "value": "", "type": "path" },
+              { "name": "party_id", "value": "", "type": "path" },
+              { "name": "participant_id", "value": "", "type": "path" }
+            ]
+          },
+          "docs": "Removes a participant from a party on a draft contract. Modeled."
+        }
+      ]
+    },
+    {
+      "info": { "name": "Webhooks", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "List webhooks (modeled)", "type": "http" },
+          "http": { "method": "GET", "url": "https://api.oneflow.com/v1/webhooks" },
+          "docs": "Lists the webhook subscriptions configured in the account. Modeled."
+        },
+        {
+          "info": { "name": "Create a webhook (modeled)", "type": "http" },
+          "http": {
+            "method": "POST",
+            "url": "https://api.oneflow.com/v1/webhooks",
+            "body": { "type": "json", "data": "{\n  \"callback_url\": \"https://example.com/oneflow-webhook\",\n  \"sign_key\": \"secret\",\n  \"subscriptions\": [\"contract:publish\", \"contract:signed\"]\n}" }
+          },
+          "docs": "Creates a webhook subscription that delivers contract lifecycle events to a callback URL. Modeled."
+        },
+        {
+          "info": { "name": "Get a webhook (modeled)", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://api.oneflow.com/v1/webhooks/:webhook_id",
+            "params": [ { "name": "webhook_id", "value": "", "type": "path" } ]
+          },
+          "docs": "Retrieves a single webhook subscription. Modeled."
+        },
+        {
+          "info": { "name": "Delete a webhook (modeled)", "type": "http" },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.oneflow.com/v1/webhooks/:webhook_id",
+            "params": [ { "name": "webhook_id", "value": "", "type": "path" } ]
+          },
+          "docs": "Deletes a webhook subscription. Modeled."
+        }
+      ]
+    },
+    {
+      "info": { "name": "Users", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "Get users in an account", "type": "http" },
+          "http": { "method": "GET", "url": "https://api.oneflow.com/v1/users" },
+          "docs": "Retrieves the list of users in the account."
+        },
+        {
+          "info": { "name": "Get a user (modeled)", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://api.oneflow.com/v1/users/:user_id",
+            "params": [ { "name": "user_id", "value": "", "type": "path" } ]
+          },
+          "docs": "Retrieves a single user by ID. Modeled."
+        }
+      ]
+    },
+    {
+      "info": { "name": "Comments", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "Get contract comments (modeled)", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://api.oneflow.com/v1/contracts/:contract_id/comments",
+            "params": [ { "name": "contract_id", "value": "", "type": "path" } ]
+          },
+          "docs": "Retrieves the inline comments left on a contract during negotiation. Modeled."
+        }
+      ]
+    }
+  ]
+}

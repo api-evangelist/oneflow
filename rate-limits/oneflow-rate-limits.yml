@@ -1,0 +1,68 @@
+specification: API Commons Rate Limits
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/RateLimits
+provider: Oneflow
+providerId: oneflow
+created: '2026-07-03'
+modified: '2026-07-03'
+reconciled: false
+tags:
+- Contract Management
+- E-Signature
+- CLM
+- Rate Limiting
+- Quotas
+description: >-
+  Oneflow does not publish a fixed numeric request-rate limit for the Public API
+  in its developer documentation as of the review date. Requests to
+  https://api.oneflow.com/v1 are authenticated per account API token
+  (x-oneflow-api-token) with the acting user scoped by x-oneflow-user-email; the
+  practical ceiling on programmatic usage is governed by plan entitlement (Public
+  API access is limited to the Business and Enterprise tiers) rather than a
+  documented per-minute cap. List endpoints are paginated with an explicit
+  `limit` (max 100 per page) and `offset` (up to 19900), which bounds bulk reads.
+  Clients should implement exponential backoff with jitter and honor any
+  Retry-After header on throttled responses.
+notes: >-
+  No numeric per-account or per-endpoint request limit is documented. Verify
+  whether Oneflow enforces an undocumented soft limit or 429 throttling in
+  production during reconciliation. The strongest documented governor is
+  pagination (limit <= 100, offset <= 19900) plus plan-level API entitlement.
+sources:
+- https://developer.oneflow.com/docs/getting-started
+- https://developer.oneflow.com/docs/authentication-and-authorization
+- https://developer.oneflow.com/reference/get-templates
+- https://support.oneflow.com/support/solutions/articles/77000539022-public-api
+responseCodes:
+  throttled: 429
+limits:
+- name: Public API Requests
+  scope: account
+  metric: requests
+  limit: not published
+  notes: No fixed numeric request-rate limit is documented for the Oneflow Public API.
+- name: Pagination Page Size
+  scope: endpoint
+  metric: results
+  limit: 100 per request
+  notes: List endpoints accept limit=1..100 (default 100) per request.
+- name: Pagination Offset Ceiling
+  scope: endpoint
+  metric: offset
+  limit: 19900 max offset
+  notes: The offset parameter is bounded at 19900, capping deep pagination.
+- name: API Entitlement
+  scope: account
+  metric: plan
+  limit: Business and Enterprise plans only
+  notes: Public API and webhook access are gated to the Business and Enterprise tiers.
+policies:
+- name: Token Authorization
+  description: Every request requires a valid account API token (x-oneflow-api-token); most endpoints also scope authorization to the x-oneflow-user-email acting user.
+- name: Backoff Strategy
+  description: Clients should implement exponential backoff with jitter and honor any Retry-After header on 429 responses.
+- name: Pagination
+  description: Use limit/offset pagination for large collections rather than issuing many rapid unbounded requests.
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com
