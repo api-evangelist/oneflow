@@ -205,6 +205,12 @@ apis:
     threaded collaboration messages exchanged between internal users and counterparties
     while a contract is being reviewed and agreed.
 common:
+- type: VulnerabilityDisclosure
+  url: security/oneflow-vulnerability-disclosure.yml
+- type: DomainSecurity
+  url: security/oneflow-domain-security.yml
+- type: Authentication
+  url: authentication/oneflow-authentication.yml
 - type: LinkedIn
   url: https://www.linkedin.com/company/oneflowcom
 - type: Website
