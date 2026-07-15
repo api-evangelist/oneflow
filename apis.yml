@@ -205,6 +205,8 @@ apis:
     threaded collaboration messages exchanged between internal users and counterparties
     while a contract is being reviewed and agreed.
 common:
+- type: AgenticAccess
+  url: agentic-access/oneflow-agentic-access.yml
 - type: VulnerabilityDisclosure
   url: security/oneflow-vulnerability-disclosure.yml
 - type: DomainSecurity
