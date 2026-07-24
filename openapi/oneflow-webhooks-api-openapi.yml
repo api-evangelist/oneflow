@@ -1,0 +1,162 @@
+openapi: 3.0.3
+info:
+  title: Oneflow Public Comments Webhooks API
+  description: 'The Oneflow Public API is a REST API for the Oneflow contract lifecycle management and e-signature platform. It lets teams programmatically create contracts from templates, add parties and participants, fill data fields and products, publish contracts for signing, download signed files, manage users and workspaces, and subscribe to contract lifecycle events via webhooks.
+
+    Authentication uses two HTTP headers on every request: `x-oneflow-api-token` (an account API token generated in the Oneflow Marketplace) and, for most endpoints, `x-oneflow-user-email` (the email of the acting Oneflow user, used for permission-scoped authorization; omitting it runs the request as an anonymous admin user). API access and webhooks are available on the Business and Enterprise plans.
+
+    Endpoint coverage note: /ping, contract create/get/list/publish, templates, workspaces, and users are confirmed against Oneflow''s public documentation. The remaining paths (contract delete/copy, data fields, parties, participants, webhooks, comments) are modeled from Oneflow''s documented resource models and REST conventions; verify exact shapes against the live reference before production use.'
+  version: '1.0'
+  contact:
+    name: Oneflow
+    url: https://developer.oneflow.com
+  termsOfService: https://oneflow.com/terms-of-service/
+servers:
+- url: https://api.oneflow.com/v1
+  description: Oneflow Public API (production)
+security:
+- apiToken: []
+  userEmail: []
+tags:
+- name: Webhooks
+  description: Subscriptions delivering contract lifecycle events to a callback URL.
+paths:
+  /webhooks:
+    get:
+      operationId: listWebhooks
+      tags:
+      - Webhooks
+      summary: List webhooks
+      description: Lists the webhook subscriptions configured in the account (modeled).
+      responses:
+        '200':
+          description: A list of webhooks.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Webhook'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    post:
+      operationId: createWebhook
+      tags:
+      - Webhooks
+      summary: Create a webhook
+      description: Creates a webhook subscription that delivers contract lifecycle events to a callback URL, optionally filtered by event type and workspace (modeled).
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Webhook'
+      responses:
+        '200':
+          description: The created webhook.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Webhook'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /webhooks/{webhook_id}:
+    parameters:
+    - name: webhook_id
+      in: path
+      required: true
+      schema:
+        type: integer
+    get:
+      operationId: getWebhook
+      tags:
+      - Webhooks
+      summary: Get a webhook
+      description: Retrieves a single webhook subscription (modeled).
+      responses:
+        '200':
+          description: The webhook.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Webhook'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    delete:
+      operationId: deleteWebhook
+      tags:
+      - Webhooks
+      summary: Delete a webhook
+      description: Deletes a webhook subscription (modeled).
+      responses:
+        '204':
+          description: The webhook was deleted.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+components:
+  schemas:
+    Webhook:
+      type: object
+      properties:
+        id:
+          type: integer
+        callback_url:
+          type: string
+          format: uri
+        sign_key:
+          type: string
+        active:
+          type: boolean
+        subscriptions:
+          type: array
+          description: Event types the webhook subscribes to.
+          items:
+            type: string
+    Error:
+      type: object
+      properties:
+        status_code:
+          type: integer
+        parameter_errors:
+          type: object
+        errors:
+          type: array
+          items:
+            type: object
+  responses:
+    Unauthorized:
+      description: Missing or invalid API token / user email.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    BadRequest:
+      description: The request was malformed or invalid.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  securitySchemes:
+    apiToken:
+      type: apiKey
+      in: header
+      name: x-oneflow-api-token
+      description: Account API token generated in the Oneflow Marketplace.
+    userEmail:
+      type: apiKey
+      in: header
+      name: x-oneflow-user-email
+      description: Email of the acting Oneflow user, used for permission-scoped authorization. Optional on some endpoints; omitting it runs the request as an anonymous admin user.

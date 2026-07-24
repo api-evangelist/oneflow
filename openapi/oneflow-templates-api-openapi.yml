@@ -1,0 +1,164 @@
+openapi: 3.0.3
+info:
+  title: Oneflow Public Comments Templates API
+  description: 'The Oneflow Public API is a REST API for the Oneflow contract lifecycle management and e-signature platform. It lets teams programmatically create contracts from templates, add parties and participants, fill data fields and products, publish contracts for signing, download signed files, manage users and workspaces, and subscribe to contract lifecycle events via webhooks.
+
+    Authentication uses two HTTP headers on every request: `x-oneflow-api-token` (an account API token generated in the Oneflow Marketplace) and, for most endpoints, `x-oneflow-user-email` (the email of the acting Oneflow user, used for permission-scoped authorization; omitting it runs the request as an anonymous admin user). API access and webhooks are available on the Business and Enterprise plans.
+
+    Endpoint coverage note: /ping, contract create/get/list/publish, templates, workspaces, and users are confirmed against Oneflow''s public documentation. The remaining paths (contract delete/copy, data fields, parties, participants, webhooks, comments) are modeled from Oneflow''s documented resource models and REST conventions; verify exact shapes against the live reference before production use.'
+  version: '1.0'
+  contact:
+    name: Oneflow
+    url: https://developer.oneflow.com
+  termsOfService: https://oneflow.com/terms-of-service/
+servers:
+- url: https://api.oneflow.com/v1
+  description: Oneflow Public API (production)
+security:
+- apiToken: []
+  userEmail: []
+tags:
+- name: Templates
+  description: Templates and template types used to create contracts.
+paths:
+  /templates:
+    get:
+      operationId: getTemplates
+      tags:
+      - Templates
+      summary: Get templates
+      description: Retrieves the templates available for the specified user.
+      parameters:
+      - $ref: '#/components/parameters/offset'
+      - $ref: '#/components/parameters/limit'
+      - name: template_type_id
+        in: query
+        schema:
+          type: integer
+        description: Filter templates by template type.
+      - name: filter[workspace_ids]
+        in: query
+        schema:
+          type: string
+        description: Comma-separated list of workspace IDs.
+      - name: filter[active]
+        in: query
+        schema:
+          type: boolean
+          default: true
+        description: Filter by active state.
+      responses:
+        '200':
+          description: A list of templates.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Template'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /template_types:
+    get:
+      operationId: getTemplateTypes
+      tags:
+      - Templates
+      summary: Get template types
+      description: Retrieves the template types defined in the account (modeled).
+      responses:
+        '200':
+          description: A list of template types.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/TemplateType'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+components:
+  parameters:
+    offset:
+      name: offset
+      in: query
+      schema:
+        type: integer
+        minimum: 0
+        maximum: 19900
+        default: 0
+      description: Pagination offset.
+    limit:
+      name: limit
+      in: query
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 100
+      description: Maximum number of results to return.
+  schemas:
+    Template:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        template_type_id:
+          type: integer
+        workspace_id:
+          type: integer
+        active:
+          type: boolean
+    Error:
+      type: object
+      properties:
+        status_code:
+          type: integer
+        parameter_errors:
+          type: object
+        errors:
+          type: array
+          items:
+            type: object
+    TemplateType:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        extension_type:
+          type: string
+  responses:
+    Unauthorized:
+      description: Missing or invalid API token / user email.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    BadRequest:
+      description: The request was malformed or invalid.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  securitySchemes:
+    apiToken:
+      type: apiKey
+      in: header
+      name: x-oneflow-api-token
+      description: Account API token generated in the Oneflow Marketplace.
+    userEmail:
+      type: apiKey
+      in: header
+      name: x-oneflow-user-email
+      description: Email of the acting Oneflow user, used for permission-scoped authorization. Optional on some endpoints; omitting it runs the request as an anonymous admin user.

@@ -1,0 +1,157 @@
+openapi: 3.0.3
+info:
+  title: Oneflow Public Comments Data Fields API
+  description: 'The Oneflow Public API is a REST API for the Oneflow contract lifecycle management and e-signature platform. It lets teams programmatically create contracts from templates, add parties and participants, fill data fields and products, publish contracts for signing, download signed files, manage users and workspaces, and subscribe to contract lifecycle events via webhooks.
+
+    Authentication uses two HTTP headers on every request: `x-oneflow-api-token` (an account API token generated in the Oneflow Marketplace) and, for most endpoints, `x-oneflow-user-email` (the email of the acting Oneflow user, used for permission-scoped authorization; omitting it runs the request as an anonymous admin user). API access and webhooks are available on the Business and Enterprise plans.
+
+    Endpoint coverage note: /ping, contract create/get/list/publish, templates, workspaces, and users are confirmed against Oneflow''s public documentation. The remaining paths (contract delete/copy, data fields, parties, participants, webhooks, comments) are modeled from Oneflow''s documented resource models and REST conventions; verify exact shapes against the live reference before production use.'
+  version: '1.0'
+  contact:
+    name: Oneflow
+    url: https://developer.oneflow.com
+  termsOfService: https://oneflow.com/terms-of-service/
+servers:
+- url: https://api.oneflow.com/v1
+  description: Oneflow Public API (production)
+security:
+- apiToken: []
+  userEmail: []
+tags:
+- name: Data Fields
+  description: Custom / merge fields on contracts and template types.
+paths:
+  /template_types/{template_type_id}/data_fields:
+    parameters:
+    - name: template_type_id
+      in: path
+      required: true
+      schema:
+        type: integer
+    get:
+      operationId: getTemplateTypeDataFields
+      tags:
+      - Data Fields
+      summary: Get template type data fields
+      description: Retrieves the data fields defined on a template type (modeled).
+      responses:
+        '200':
+          description: A list of data fields.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/DataField'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /contracts/{contract_id}/data_fields:
+    parameters:
+    - $ref: '#/components/parameters/contractId'
+    get:
+      operationId: getContractDataFields
+      tags:
+      - Data Fields
+      summary: Get contract data fields
+      description: Retrieves the data fields on a contract (modeled).
+      responses:
+        '200':
+          description: A list of data fields.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/DataField'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    put:
+      operationId: updateContractDataFields
+      tags:
+      - Data Fields
+      summary: Update contract data fields
+      description: Updates the values of data fields on a draft contract (modeled).
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data_fields:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/DataField'
+      responses:
+        '200':
+          description: The updated data fields.
+          content:
+            application/json:
+              schema:
+                type: object
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+components:
+  schemas:
+    DataField:
+      type: object
+      properties:
+        id:
+          type: integer
+        custom_id:
+          type: string
+        name:
+          type: string
+        value:
+          type: string
+    Error:
+      type: object
+      properties:
+        status_code:
+          type: integer
+        parameter_errors:
+          type: object
+        errors:
+          type: array
+          items:
+            type: object
+  responses:
+    Unauthorized:
+      description: Missing or invalid API token / user email.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    BadRequest:
+      description: The request was malformed or invalid.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  parameters:
+    contractId:
+      name: contract_id
+      in: path
+      required: true
+      schema:
+        type: integer
+      description: The ID of the contract.
+  securitySchemes:
+    apiToken:
+      type: apiKey
+      in: header
+      name: x-oneflow-api-token
+      description: Account API token generated in the Oneflow Marketplace.
+    userEmail:
+      type: apiKey
+      in: header
+      name: x-oneflow-user-email
+      description: Email of the acting Oneflow user, used for permission-scoped authorization. Optional on some endpoints; omitting it runs the request as an anonymous admin user.

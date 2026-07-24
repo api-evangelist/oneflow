@@ -1,0 +1,89 @@
+openapi: 3.0.3
+info:
+  title: Oneflow Public Comments Contract Files API
+  description: 'The Oneflow Public API is a REST API for the Oneflow contract lifecycle management and e-signature platform. It lets teams programmatically create contracts from templates, add parties and participants, fill data fields and products, publish contracts for signing, download signed files, manage users and workspaces, and subscribe to contract lifecycle events via webhooks.
+
+    Authentication uses two HTTP headers on every request: `x-oneflow-api-token` (an account API token generated in the Oneflow Marketplace) and, for most endpoints, `x-oneflow-user-email` (the email of the acting Oneflow user, used for permission-scoped authorization; omitting it runs the request as an anonymous admin user). API access and webhooks are available on the Business and Enterprise plans.
+
+    Endpoint coverage note: /ping, contract create/get/list/publish, templates, workspaces, and users are confirmed against Oneflow''s public documentation. The remaining paths (contract delete/copy, data fields, parties, participants, webhooks, comments) are modeled from Oneflow''s documented resource models and REST conventions; verify exact shapes against the live reference before production use.'
+  version: '1.0'
+  contact:
+    name: Oneflow
+    url: https://developer.oneflow.com
+  termsOfService: https://oneflow.com/terms-of-service/
+servers:
+- url: https://api.oneflow.com/v1
+  description: Oneflow Public API (production)
+security:
+- apiToken: []
+  userEmail: []
+tags:
+- name: Contract Files
+  description: Download the files (PDF / signed documents) attached to a contract.
+paths:
+  /contracts/{contract_id}/contract_files:
+    parameters:
+    - $ref: '#/components/parameters/contractId'
+    get:
+      operationId: getContractFile
+      tags:
+      - Contract Files
+      summary: Download a contract file
+      description: Downloads a file associated with a contract (for example the PDF or the signed document). Returns the binary file (modeled).
+      responses:
+        '200':
+          description: The contract file.
+          content:
+            application/pdf:
+              schema:
+                type: string
+                format: binary
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+components:
+  parameters:
+    contractId:
+      name: contract_id
+      in: path
+      required: true
+      schema:
+        type: integer
+      description: The ID of the contract.
+  responses:
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Missing or invalid API token / user email.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  schemas:
+    Error:
+      type: object
+      properties:
+        status_code:
+          type: integer
+        parameter_errors:
+          type: object
+        errors:
+          type: array
+          items:
+            type: object
+  securitySchemes:
+    apiToken:
+      type: apiKey
+      in: header
+      name: x-oneflow-api-token
+      description: Account API token generated in the Oneflow Marketplace.
+    userEmail:
+      type: apiKey
+      in: header
+      name: x-oneflow-user-email
+      description: Email of the acting Oneflow user, used for permission-scoped authorization. Optional on some endpoints; omitting it runs the request as an anonymous admin user.

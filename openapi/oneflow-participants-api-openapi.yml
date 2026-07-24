@@ -1,0 +1,161 @@
+openapi: 3.0.3
+info:
+  title: Oneflow Public Comments Participants API
+  description: 'The Oneflow Public API is a REST API for the Oneflow contract lifecycle management and e-signature platform. It lets teams programmatically create contracts from templates, add parties and participants, fill data fields and products, publish contracts for signing, download signed files, manage users and workspaces, and subscribe to contract lifecycle events via webhooks.
+
+    Authentication uses two HTTP headers on every request: `x-oneflow-api-token` (an account API token generated in the Oneflow Marketplace) and, for most endpoints, `x-oneflow-user-email` (the email of the acting Oneflow user, used for permission-scoped authorization; omitting it runs the request as an anonymous admin user). API access and webhooks are available on the Business and Enterprise plans.
+
+    Endpoint coverage note: /ping, contract create/get/list/publish, templates, workspaces, and users are confirmed against Oneflow''s public documentation. The remaining paths (contract delete/copy, data fields, parties, participants, webhooks, comments) are modeled from Oneflow''s documented resource models and REST conventions; verify exact shapes against the live reference before production use.'
+  version: '1.0'
+  contact:
+    name: Oneflow
+    url: https://developer.oneflow.com
+  termsOfService: https://oneflow.com/terms-of-service/
+servers:
+- url: https://api.oneflow.com/v1
+  description: Oneflow Public API (production)
+security:
+- apiToken: []
+  userEmail: []
+tags:
+- name: Participants
+  description: Signatories and viewers belonging to a party.
+paths:
+  /contracts/{contract_id}/parties/{party_id}/participants:
+    parameters:
+    - $ref: '#/components/parameters/contractId'
+    - $ref: '#/components/parameters/partyId'
+    post:
+      operationId: createParticipant
+      tags:
+      - Participants
+      summary: Add a participant to a party
+      description: Adds a participant (signatory or viewer) to a party on a draft contract (modeled).
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Participant'
+      responses:
+        '200':
+          description: The created participant.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Participant'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /contracts/{contract_id}/parties/{party_id}/participants/{participant_id}:
+    parameters:
+    - $ref: '#/components/parameters/contractId'
+    - $ref: '#/components/parameters/partyId'
+    - name: participant_id
+      in: path
+      required: true
+      schema:
+        type: integer
+    put:
+      operationId: updateParticipant
+      tags:
+      - Participants
+      summary: Update a participant
+      description: Updates a participant on a draft contract (modeled).
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Participant'
+      responses:
+        '200':
+          description: The updated participant.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Participant'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    delete:
+      operationId: deleteParticipant
+      tags:
+      - Participants
+      summary: Delete a participant
+      description: Removes a participant from a party on a draft contract (modeled).
+      responses:
+        '204':
+          description: The participant was removed.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+components:
+  schemas:
+    Participant:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        email:
+          type: string
+          format: email
+        phone_number:
+          type: string
+        signatory:
+          type: boolean
+        delivery_channel:
+          type: string
+        _permissions:
+          type: object
+    Error:
+      type: object
+      properties:
+        status_code:
+          type: integer
+        parameter_errors:
+          type: object
+        errors:
+          type: array
+          items:
+            type: object
+  responses:
+    Unauthorized:
+      description: Missing or invalid API token / user email.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    BadRequest:
+      description: The request was malformed or invalid.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  parameters:
+    contractId:
+      name: contract_id
+      in: path
+      required: true
+      schema:
+        type: integer
+      description: The ID of the contract.
+    partyId:
+      name: party_id
+      in: path
+      required: true
+      schema:
+        type: integer
+      description: The ID of the party.
+  securitySchemes:
+    apiToken:
+      type: apiKey
+      in: header
+      name: x-oneflow-api-token
+      description: Account API token generated in the Oneflow Marketplace.
+    userEmail:
+      type: apiKey
+      in: header
+      name: x-oneflow-user-email
+      description: Email of the acting Oneflow user, used for permission-scoped authorization. Optional on some endpoints; omitting it runs the request as an anonymous admin user.
