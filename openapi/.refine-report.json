@@ -1,0 +1,34 @@
+{
+  "provider": "oneflow",
+  "sources": [
+    "oneflow-comments-api-openapi.yml",
+    "oneflow-contract-files-api-openapi.yml",
+    "oneflow-contracts-api-openapi.yml",
+    "oneflow-data-fields-api-openapi.yml",
+    "oneflow-participants-api-openapi.yml",
+    "oneflow-parties-api-openapi.yml",
+    "oneflow-ping-api-openapi.yml",
+    "oneflow-templates-api-openapi.yml",
+    "oneflow-users-api-openapi.yml",
+    "oneflow-webhooks-api-openapi.yml",
+    "oneflow-workspaces-api-openapi.yml"
+  ],
+  "outputs": [
+    "oneflow-comments-api-openapi.yml",
+    "oneflow-contract-files-api-openapi.yml",
+    "oneflow-contracts-api-openapi.yml",
+    "oneflow-data-fields-api-openapi.yml",
+    "oneflow-participants-api-openapi.yml",
+    "oneflow-parties-api-openapi.yml",
+    "oneflow-ping-api-openapi.yml",
+    "oneflow-templates-api-openapi.yml",
+    "oneflow-users-api-openapi.yml",
+    "oneflow-webhooks-api-openapi.yml",
+    "oneflow-workspaces-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}
