@@ -1,0 +1,665 @@
+{
+  "item": [
+    {
+      "id": "19dc5d04-4e37-4592-9ec0-c2ce8a61a356",
+      "name": "Parties",
+      "description": {
+        "content": "Counterparty companies or individuals on a contract.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "5dedae4d-3a72-429f-a78f-869068a99d71",
+          "name": "Add a party to a contract",
+          "request": {
+            "name": "Add a party to a contract",
+            "description": {
+              "content": "Adds a counterparty (company or individual) to a draft contract (modeled).",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "contracts",
+                ":contract_id",
+                "parties"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "contract_id",
+                  "description": "(Required) The ID of the contract."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": \"<integer>\",\n  \"name\": \"<string>\",\n  \"country_code\": \"<string>\",\n  \"identification_number\": \"<string>\",\n  \"type\": \"<string>\",\n  \"participants\": [\n    {\n      \"id\": \"<integer>\",\n      \"name\": \"<string>\",\n      \"email\": \"<email>\",\n      \"phone_number\": \"<string>\",\n      \"signatory\": \"<boolean>\",\n      \"delivery_channel\": \"<string>\",\n      \"_permissions\": \"<object>\"\n    },\n    {\n      \"id\": \"<integer>\",\n      \"name\": \"<string>\",\n      \"email\": \"<email>\",\n      \"phone_number\": \"<string>\",\n      \"signatory\": \"<boolean>\",\n      \"delivery_channel\": \"<string>\",\n      \"_permissions\": \"<object>\"\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "482aed56-28e4-4700-9d9b-136fe18afd0e",
+              "name": "The created party.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "contracts",
+                    ":contract_id",
+                    "parties"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "contract_id",
+                      "description": "(Required) The ID of the contract."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-oneflow-api-token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"id\": \"<integer>\",\n  \"name\": \"<string>\",\n  \"country_code\": \"<string>\",\n  \"identification_number\": \"<string>\",\n  \"type\": \"<string>\",\n  \"participants\": [\n    {\n      \"id\": \"<integer>\",\n      \"name\": \"<string>\",\n      \"email\": \"<email>\",\n      \"phone_number\": \"<string>\",\n      \"signatory\": \"<boolean>\",\n      \"delivery_channel\": \"<string>\",\n      \"_permissions\": \"<object>\"\n    },\n    {\n      \"id\": \"<integer>\",\n      \"name\": \"<string>\",\n      \"email\": \"<email>\",\n      \"phone_number\": \"<string>\",\n      \"signatory\": \"<boolean>\",\n      \"delivery_channel\": \"<string>\",\n      \"_permissions\": \"<object>\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"<integer>\",\n  \"name\": \"<string>\",\n  \"country_code\": \"<string>\",\n  \"identification_number\": \"<string>\",\n  \"type\": \"<string>\",\n  \"participants\": [\n    {\n      \"id\": \"<integer>\",\n      \"name\": \"<string>\",\n      \"email\": \"<email>\",\n      \"phone_number\": \"<string>\",\n      \"signatory\": \"<boolean>\",\n      \"delivery_channel\": \"<string>\",\n      \"_permissions\": \"<object>\"\n    },\n    {\n      \"id\": \"<integer>\",\n      \"name\": \"<string>\",\n      \"email\": \"<email>\",\n      \"phone_number\": \"<string>\",\n      \"signatory\": \"<boolean>\",\n      \"delivery_channel\": \"<string>\",\n      \"_permissions\": \"<object>\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "aeb83131-ad8a-4c43-a756-e98149399b4f",
+              "name": "The request was malformed or invalid.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "contracts",
+                    ":contract_id",
+                    "parties"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "contract_id",
+                      "description": "(Required) The ID of the contract."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-oneflow-api-token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"id\": \"<integer>\",\n  \"name\": \"<string>\",\n  \"country_code\": \"<string>\",\n  \"identification_number\": \"<string>\",\n  \"type\": \"<string>\",\n  \"participants\": [\n    {\n      \"id\": \"<integer>\",\n      \"name\": \"<string>\",\n      \"email\": \"<email>\",\n      \"phone_number\": \"<string>\",\n      \"signatory\": \"<boolean>\",\n      \"delivery_channel\": \"<string>\",\n      \"_permissions\": \"<object>\"\n    },\n    {\n      \"id\": \"<integer>\",\n      \"name\": \"<string>\",\n      \"email\": \"<email>\",\n      \"phone_number\": \"<string>\",\n      \"signatory\": \"<boolean>\",\n      \"delivery_channel\": \"<string>\",\n      \"_permissions\": \"<object>\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status_code\": 1140,\n  \"parameter_errors\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ce9cd7cd-323f-4a46-b6d0-0cb09a4fc2fe",
+              "name": "Missing or invalid API token / user email.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "contracts",
+                    ":contract_id",
+                    "parties"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "contract_id",
+                      "description": "(Required) The ID of the contract."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-oneflow-api-token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"id\": \"<integer>\",\n  \"name\": \"<string>\",\n  \"country_code\": \"<string>\",\n  \"identification_number\": \"<string>\",\n  \"type\": \"<string>\",\n  \"participants\": [\n    {\n      \"id\": \"<integer>\",\n      \"name\": \"<string>\",\n      \"email\": \"<email>\",\n      \"phone_number\": \"<string>\",\n      \"signatory\": \"<boolean>\",\n      \"delivery_channel\": \"<string>\",\n      \"_permissions\": \"<object>\"\n    },\n    {\n      \"id\": \"<integer>\",\n      \"name\": \"<string>\",\n      \"email\": \"<email>\",\n      \"phone_number\": \"<string>\",\n      \"signatory\": \"<boolean>\",\n      \"delivery_channel\": \"<string>\",\n      \"_permissions\": \"<object>\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status_code\": 4132,\n  \"parameter_errors\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "97f94547-ccb0-4c3d-ae66-9b9925404cc4",
+          "name": "Update a party",
+          "request": {
+            "name": "Update a party",
+            "description": {
+              "content": "Updates a party on a draft contract (modeled).",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "contracts",
+                ":contract_id",
+                "parties",
+                ":party_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "contract_id",
+                  "description": "(Required) The ID of the contract."
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "party_id",
+                  "description": "(Required) The ID of the party."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": \"<integer>\",\n  \"name\": \"<string>\",\n  \"country_code\": \"<string>\",\n  \"identification_number\": \"<string>\",\n  \"type\": \"<string>\",\n  \"participants\": [\n    {\n      \"id\": \"<integer>\",\n      \"name\": \"<string>\",\n      \"email\": \"<email>\",\n      \"phone_number\": \"<string>\",\n      \"signatory\": \"<boolean>\",\n      \"delivery_channel\": \"<string>\",\n      \"_permissions\": \"<object>\"\n    },\n    {\n      \"id\": \"<integer>\",\n      \"name\": \"<string>\",\n      \"email\": \"<email>\",\n      \"phone_number\": \"<string>\",\n      \"signatory\": \"<boolean>\",\n      \"delivery_channel\": \"<string>\",\n      \"_permissions\": \"<object>\"\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "2542bd20-15a9-4ad9-b2c7-3c10475a231c",
+              "name": "The updated party.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "contracts",
+                    ":contract_id",
+                    "parties",
+                    ":party_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "contract_id",
+                      "description": "(Required) The ID of the contract."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "party_id",
+                      "description": "(Required) The ID of the party."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-oneflow-api-token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"id\": \"<integer>\",\n  \"name\": \"<string>\",\n  \"country_code\": \"<string>\",\n  \"identification_number\": \"<string>\",\n  \"type\": \"<string>\",\n  \"participants\": [\n    {\n      \"id\": \"<integer>\",\n      \"name\": \"<string>\",\n      \"email\": \"<email>\",\n      \"phone_number\": \"<string>\",\n      \"signatory\": \"<boolean>\",\n      \"delivery_channel\": \"<string>\",\n      \"_permissions\": \"<object>\"\n    },\n    {\n      \"id\": \"<integer>\",\n      \"name\": \"<string>\",\n      \"email\": \"<email>\",\n      \"phone_number\": \"<string>\",\n      \"signatory\": \"<boolean>\",\n      \"delivery_channel\": \"<string>\",\n      \"_permissions\": \"<object>\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"<integer>\",\n  \"name\": \"<string>\",\n  \"country_code\": \"<string>\",\n  \"identification_number\": \"<string>\",\n  \"type\": \"<string>\",\n  \"participants\": [\n    {\n      \"id\": \"<integer>\",\n      \"name\": \"<string>\",\n      \"email\": \"<email>\",\n      \"phone_number\": \"<string>\",\n      \"signatory\": \"<boolean>\",\n      \"delivery_channel\": \"<string>\",\n      \"_permissions\": \"<object>\"\n    },\n    {\n      \"id\": \"<integer>\",\n      \"name\": \"<string>\",\n      \"email\": \"<email>\",\n      \"phone_number\": \"<string>\",\n      \"signatory\": \"<boolean>\",\n      \"delivery_channel\": \"<string>\",\n      \"_permissions\": \"<object>\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f22f6d97-e41c-4870-8c8e-d37842009ea7",
+              "name": "Missing or invalid API token / user email.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "contracts",
+                    ":contract_id",
+                    "parties",
+                    ":party_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "contract_id",
+                      "description": "(Required) The ID of the contract."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "party_id",
+                      "description": "(Required) The ID of the party."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-oneflow-api-token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"id\": \"<integer>\",\n  \"name\": \"<string>\",\n  \"country_code\": \"<string>\",\n  \"identification_number\": \"<string>\",\n  \"type\": \"<string>\",\n  \"participants\": [\n    {\n      \"id\": \"<integer>\",\n      \"name\": \"<string>\",\n      \"email\": \"<email>\",\n      \"phone_number\": \"<string>\",\n      \"signatory\": \"<boolean>\",\n      \"delivery_channel\": \"<string>\",\n      \"_permissions\": \"<object>\"\n    },\n    {\n      \"id\": \"<integer>\",\n      \"name\": \"<string>\",\n      \"email\": \"<email>\",\n      \"phone_number\": \"<string>\",\n      \"signatory\": \"<boolean>\",\n      \"delivery_channel\": \"<string>\",\n      \"_permissions\": \"<object>\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status_code\": 4132,\n  \"parameter_errors\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "994bc268-2cbb-4357-89da-8073c44fc433",
+          "name": "Delete a party",
+          "request": {
+            "name": "Delete a party",
+            "description": {
+              "content": "Removes a party from a draft contract (modeled).",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "contracts",
+                ":contract_id",
+                "parties",
+                ":party_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "contract_id",
+                  "description": "(Required) The ID of the contract."
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "party_id",
+                  "description": "(Required) The ID of the party."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "447e17ae-f636-4b05-aee2-2fc562c5879b",
+              "name": "The party was removed.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "contracts",
+                    ":contract_id",
+                    "parties",
+                    ":party_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "contract_id",
+                      "description": "(Required) The ID of the contract."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "party_id",
+                      "description": "(Required) The ID of the party."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-oneflow-api-token",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "006a167f-b9af-46ba-b45f-58274d5c726d",
+              "name": "Missing or invalid API token / user email.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "contracts",
+                    ":contract_id",
+                    "parties",
+                    ":party_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "contract_id",
+                      "description": "(Required) The ID of the contract."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "party_id",
+                      "description": "(Required) The ID of the party."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-oneflow-api-token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status_code\": 4132,\n  \"parameter_errors\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.oneflow.com/v1",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "x-oneflow-api-token"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "821aae8c-fbb0-416d-9f84-730385f009bc",
+    "name": "Oneflow Public Comments Parties API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Oneflow Public API is a REST API for the Oneflow contract lifecycle management and e-signature platform. It lets teams programmatically create contracts from templates, add parties and participants, fill data fields and products, publish contracts for signing, download signed files, manage users and workspaces, and subscribe to contract lifecycle events via webhooks.\nAuthentication uses two HTTP headers on every request: `x-oneflow-api-token` (an account API token generated in the Oneflow Marketplace) and, for most endpoints, `x-oneflow-user-email` (the email of the acting Oneflow user, used for permission-scoped authorization; omitting it runs the request as an anonymous admin user). API access and webhooks are available on the Business and Enterprise plans.\nEndpoint coverage note: /ping, contract create/get/list/publish, templates, workspaces, and users are confirmed against Oneflow's public documentation. The remaining paths (contract delete/copy, data fields, parties, participants, webhooks, comments) are modeled from Oneflow's documented resource models and REST conventions; verify exact shapes against the live reference before production use.\n\nContact Support:\n Name: Oneflow",
+      "type": "text/plain"
+    }
+  }
+}

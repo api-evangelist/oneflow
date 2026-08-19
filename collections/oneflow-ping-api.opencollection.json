@@ -1,0 +1,37 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Oneflow Public Comments Ping API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "x-oneflow-api-token",
+      "value": "{{x-oneflow-api-token}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Ping",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Ping the API",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.oneflow.com/v1/ping"
+          },
+          "docs": "Validates connectivity and the API token. Returns 200 with an empty object on success."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

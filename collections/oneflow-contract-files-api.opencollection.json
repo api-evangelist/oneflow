@@ -1,0 +1,45 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Oneflow Public Comments Contract Files API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "x-oneflow-api-token",
+      "value": "{{x-oneflow-api-token}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Contract Files",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Download a contract file",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.oneflow.com/v1/contracts/:contract_id/contract_files",
+            "params": [
+              {
+                "name": "contract_id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the contract."
+              }
+            ]
+          },
+          "docs": "Downloads a file associated with a contract (for example the PDF or the signed document). Returns the binary file (modeled)."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

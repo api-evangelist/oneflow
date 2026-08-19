@@ -1,0 +1,103 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Oneflow Public Comments Parties API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "x-oneflow-api-token",
+      "value": "{{x-oneflow-api-token}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Parties",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Add a party to a contract",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.oneflow.com/v1/contracts/:contract_id/parties",
+            "params": [
+              {
+                "name": "contract_id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the contract."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Adds a counterparty (company or individual) to a draft contract (modeled)."
+        },
+        {
+          "info": {
+            "name": "Update a party",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.oneflow.com/v1/contracts/:contract_id/parties/:party_id",
+            "params": [
+              {
+                "name": "contract_id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the contract."
+              },
+              {
+                "name": "party_id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the party."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates a party on a draft contract (modeled)."
+        },
+        {
+          "info": {
+            "name": "Delete a party",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.oneflow.com/v1/contracts/:contract_id/parties/:party_id",
+            "params": [
+              {
+                "name": "contract_id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the contract."
+              },
+              {
+                "name": "party_id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the party."
+              }
+            ]
+          },
+          "docs": "Removes a party from a draft contract (modeled)."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

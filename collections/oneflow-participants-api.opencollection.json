@@ -1,0 +1,119 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Oneflow Public Comments Participants API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "x-oneflow-api-token",
+      "value": "{{x-oneflow-api-token}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Participants",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Add a participant to a party",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.oneflow.com/v1/contracts/:contract_id/parties/:party_id/participants",
+            "params": [
+              {
+                "name": "contract_id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the contract."
+              },
+              {
+                "name": "party_id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the party."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Adds a participant (signatory or viewer) to a party on a draft contract (modeled)."
+        },
+        {
+          "info": {
+            "name": "Update a participant",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.oneflow.com/v1/contracts/:contract_id/parties/:party_id/participants/:participant_id",
+            "params": [
+              {
+                "name": "contract_id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the contract."
+              },
+              {
+                "name": "party_id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the party."
+              },
+              {
+                "name": "participant_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates a participant on a draft contract (modeled)."
+        },
+        {
+          "info": {
+            "name": "Delete a participant",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.oneflow.com/v1/contracts/:contract_id/parties/:party_id/participants/:participant_id",
+            "params": [
+              {
+                "name": "contract_id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the contract."
+              },
+              {
+                "name": "party_id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the party."
+              },
+              {
+                "name": "participant_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Removes a participant from a party on a draft contract (modeled)."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
