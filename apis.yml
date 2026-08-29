@@ -12,6 +12,18 @@ description: Oneflow is a contract lifecycle management and e-signature platform
   and products, publish contracts for signing, download signed files, and subscribe
   to contract lifecycle events via webhooks. API access and webhooks are available
   on the Business and Enterprise plans.
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: true
+  label: Hosted service · you call their endpoint
+  confidence: high
+  source:
+  - openapi
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 accessModel:
   pricing: freemium
   onboarding: self-serve
