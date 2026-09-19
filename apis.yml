@@ -425,6 +425,8 @@ apis:
   humanURL: https://developer.oneflow.com/docs/create-a-basic-contract
   baseURL: https://api.oneflow.com/v1
   tags:
+  - Workspace
+  tags_raw:
   - Workspaces
   properties:
   - type: OpenAPI
