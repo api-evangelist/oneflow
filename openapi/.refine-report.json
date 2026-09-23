@@ -1,17 +1,7 @@
 {
   "provider": "oneflow",
   "sources": [
-    "oneflow-comments-api-openapi.yml",
-    "oneflow-contract-files-api-openapi.yml",
-    "oneflow-contracts-api-openapi.yml",
-    "oneflow-data-fields-api-openapi.yml",
-    "oneflow-participants-api-openapi.yml",
-    "oneflow-parties-api-openapi.yml",
-    "oneflow-ping-api-openapi.yml",
-    "oneflow-templates-api-openapi.yml",
-    "oneflow-users-api-openapi.yml",
-    "oneflow-webhooks-api-openapi.yml",
-    "oneflow-workspaces-api-openapi.yml"
+    "_original/oneflow-openapi.yml"
   ],
   "outputs": [
     "oneflow-comments-api-openapi.yml",
@@ -29,6 +19,22 @@
   "archived": [],
   "errors": [],
   "warnings": [],
-  "notes": [],
-  "skipped": []
+  "notes": [
+    "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "oneflow-openapi.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
+    "apis.yml register: already-registered"
+  ],
+  "skipped": [
+    "oneflow-comments-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "oneflow-contract-files-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "oneflow-contracts-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "oneflow-data-fields-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "oneflow-participants-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "oneflow-parties-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "oneflow-ping-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "oneflow-templates-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "oneflow-users-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "oneflow-webhooks-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "oneflow-workspaces-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }
