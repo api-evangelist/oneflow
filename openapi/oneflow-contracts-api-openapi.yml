@@ -193,42 +193,6 @@ components:
         type: integer
       description: The ID of the contract.
   schemas:
-    Party:
-      type: object
-      properties:
-        id:
-          type: integer
-        name:
-          type: string
-        country_code:
-          type: string
-        identification_number:
-          type: string
-        type:
-          type: string
-          description: Party type (e.g. company or individual).
-        participants:
-          type: array
-          items:
-            $ref: '#/components/schemas/Participant'
-    Participant:
-      type: object
-      properties:
-        id:
-          type: integer
-        name:
-          type: string
-        email:
-          type: string
-          format: email
-        phone_number:
-          type: string
-        signatory:
-          type: boolean
-        delivery_channel:
-          type: string
-        _permissions:
-          type: object
     ContractCreateRequest:
       type: object
       required:
@@ -247,6 +211,35 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/DataField'
+    Error:
+      type: object
+      properties:
+        status_code:
+          type: integer
+        parameter_errors:
+          type: object
+        errors:
+          type: array
+          items:
+            type: object
+    Party:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        country_code:
+          type: string
+        identification_number:
+          type: string
+        type:
+          type: string
+          description: Party type (e.g. company or individual).
+        participants:
+          type: array
+          items:
+            $ref: '#/components/schemas/Participant'
     DataField:
       type: object
       properties:
@@ -278,17 +271,6 @@ components:
         updated_time:
           type: string
           format: date-time
-    Error:
-      type: object
-      properties:
-        status_code:
-          type: integer
-        parameter_errors:
-          type: object
-        errors:
-          type: array
-          items:
-            type: object
     PublishRequest:
       type: object
       properties:
@@ -298,9 +280,27 @@ components:
         message:
           type: string
           description: Body of the invitation message sent to participants.
+    Participant:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        email:
+          type: string
+          format: email
+        phone_number:
+          type: string
+        signatory:
+          type: boolean
+        delivery_channel:
+          type: string
+        _permissions:
+          type: object
   responses:
-    BadRequest:
-      description: The request was malformed or invalid.
+    NotFound:
+      description: The requested resource was not found.
       content:
         application/json:
           schema:
@@ -311,8 +311,8 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    NotFound:
-      description: The requested resource was not found.
+    BadRequest:
+      description: The request was malformed or invalid.
       content:
         application/json:
           schema:

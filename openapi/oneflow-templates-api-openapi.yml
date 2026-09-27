@@ -110,6 +110,17 @@ components:
           type: string
         extension_type:
           type: string
+    Error:
+      type: object
+      properties:
+        status_code:
+          type: integer
+        parameter_errors:
+          type: object
+        errors:
+          type: array
+          items:
+            type: object
     Template:
       type: object
       properties:
@@ -123,26 +134,15 @@ components:
           type: integer
         active:
           type: boolean
-    Error:
-      type: object
-      properties:
-        status_code:
-          type: integer
-        parameter_errors:
-          type: object
-        errors:
-          type: array
-          items:
-            type: object
   responses:
-    BadRequest:
-      description: The request was malformed or invalid.
+    Unauthorized:
+      description: Missing or invalid API token / user email.
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Missing or invalid API token / user email.
+    BadRequest:
+      description: The request was malformed or invalid.
       content:
         application/json:
           schema:

@@ -80,25 +80,22 @@ paths:
         '401':
           $ref: '#/components/responses/Unauthorized'
 components:
+  parameters:
+    partyId:
+      name: party_id
+      in: path
+      required: true
+      schema:
+        type: integer
+      description: The ID of the party.
+    contractId:
+      name: contract_id
+      in: path
+      required: true
+      schema:
+        type: integer
+      description: The ID of the contract.
   schemas:
-    Participant:
-      type: object
-      properties:
-        id:
-          type: integer
-        name:
-          type: string
-        email:
-          type: string
-          format: email
-        phone_number:
-          type: string
-        signatory:
-          type: boolean
-        delivery_channel:
-          type: string
-        _permissions:
-          type: object
     Error:
       type: object
       properties:
@@ -128,30 +125,33 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Participant'
-  parameters:
-    contractId:
-      name: contract_id
-      in: path
-      required: true
-      schema:
-        type: integer
-      description: The ID of the contract.
-    partyId:
-      name: party_id
-      in: path
-      required: true
-      schema:
-        type: integer
-      description: The ID of the party.
+    Participant:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        email:
+          type: string
+          format: email
+        phone_number:
+          type: string
+        signatory:
+          type: boolean
+        delivery_channel:
+          type: string
+        _permissions:
+          type: object
   responses:
-    BadRequest:
-      description: The request was malformed or invalid.
+    Unauthorized:
+      description: Missing or invalid API token / user email.
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Missing or invalid API token / user email.
+    BadRequest:
+      description: The request was malformed or invalid.
       content:
         application/json:
           schema:

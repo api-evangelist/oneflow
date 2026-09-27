@@ -52,6 +52,27 @@ paths:
         '401':
           $ref: '#/components/responses/Unauthorized'
 components:
+  schemas:
+    Workspace:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        description:
+          type: string
+    Error:
+      type: object
+      properties:
+        status_code:
+          type: integer
+        parameter_errors:
+          type: object
+        errors:
+          type: array
+          items:
+            type: object
   parameters:
     limit:
       name: limit
@@ -71,27 +92,6 @@ components:
         maximum: 19900
         default: 0
       description: Pagination offset.
-  schemas:
-    Error:
-      type: object
-      properties:
-        status_code:
-          type: integer
-        parameter_errors:
-          type: object
-        errors:
-          type: array
-          items:
-            type: object
-    Workspace:
-      type: object
-      properties:
-        id:
-          type: integer
-        name:
-          type: string
-        description:
-          type: string
   responses:
     Unauthorized:
       description: Missing or invalid API token / user email.
