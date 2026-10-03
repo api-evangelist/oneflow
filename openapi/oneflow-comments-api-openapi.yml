@@ -41,15 +41,18 @@ paths:
         '401':
           $ref: '#/components/responses/Unauthorized'
 components:
-  parameters:
-    contractId:
-      name: contract_id
-      in: path
-      required: true
-      schema:
-        type: integer
-      description: The ID of the contract.
   schemas:
+    Error:
+      type: object
+      properties:
+        status_code:
+          type: integer
+        parameter_errors:
+          type: object
+        errors:
+          type: array
+          items:
+            type: object
     Comment:
       type: object
       properties:
@@ -62,17 +65,6 @@ components:
         created_time:
           type: string
           format: date-time
-    Error:
-      type: object
-      properties:
-        status_code:
-          type: integer
-        parameter_errors:
-          type: object
-        errors:
-          type: array
-          items:
-            type: object
   responses:
     Unauthorized:
       description: Missing or invalid API token / user email.
@@ -80,6 +72,14 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
+  parameters:
+    contractId:
+      name: contract_id
+      in: path
+      required: true
+      schema:
+        type: integer
+      description: The ID of the contract.
   securitySchemes:
     apiToken:
       type: apiKey

@@ -166,7 +166,33 @@ paths:
         '401':
           $ref: '#/components/responses/Unauthorized'
 components:
+  responses:
+    BadRequest:
+      description: The request was malformed or invalid.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Missing or invalid API token / user email.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   parameters:
+    contractId:
+      name: contract_id
+      in: path
+      required: true
+      schema:
+        type: integer
+      description: The ID of the contract.
     limit:
       name: limit
       in: query
@@ -185,13 +211,6 @@ components:
         maximum: 19900
         default: 0
       description: Pagination offset.
-    contractId:
-      name: contract_id
-      in: path
-      required: true
-      schema:
-        type: integer
-      description: The ID of the contract.
   schemas:
     ContractCreateRequest:
       type: object
@@ -211,46 +230,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/DataField'
-    Error:
-      type: object
-      properties:
-        status_code:
-          type: integer
-        parameter_errors:
-          type: object
-        errors:
-          type: array
-          items:
-            type: object
-    Party:
-      type: object
-      properties:
-        id:
-          type: integer
-        name:
-          type: string
-        country_code:
-          type: string
-        identification_number:
-          type: string
-        type:
-          type: string
-          description: Party type (e.g. company or individual).
-        participants:
-          type: array
-          items:
-            $ref: '#/components/schemas/Participant'
-    DataField:
-      type: object
-      properties:
-        id:
-          type: integer
-        custom_id:
-          type: string
-        name:
-          type: string
-        value:
-          type: string
     Contract:
       type: object
       properties:
@@ -280,6 +259,46 @@ components:
         message:
           type: string
           description: Body of the invitation message sent to participants.
+    Party:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        country_code:
+          type: string
+        identification_number:
+          type: string
+        type:
+          type: string
+          description: Party type (e.g. company or individual).
+        participants:
+          type: array
+          items:
+            $ref: '#/components/schemas/Participant'
+    Error:
+      type: object
+      properties:
+        status_code:
+          type: integer
+        parameter_errors:
+          type: object
+        errors:
+          type: array
+          items:
+            type: object
+    DataField:
+      type: object
+      properties:
+        id:
+          type: integer
+        custom_id:
+          type: string
+        name:
+          type: string
+        value:
+          type: string
     Participant:
       type: object
       properties:
@@ -298,25 +317,6 @@ components:
           type: string
         _permissions:
           type: object
-  responses:
-    NotFound:
-      description: The requested resource was not found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Missing or invalid API token / user email.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    BadRequest:
-      description: The request was malformed or invalid.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   securitySchemes:
     apiToken:
       type: apiKey

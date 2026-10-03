@@ -86,14 +86,20 @@ paths:
         '401':
           $ref: '#/components/responses/Unauthorized'
 components:
+  responses:
+    BadRequest:
+      description: The request was malformed or invalid.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Missing or invalid API token / user email.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   parameters:
-    partyId:
-      name: party_id
-      in: path
-      required: true
-      schema:
-        type: integer
-      description: The ID of the party.
     contractId:
       name: contract_id
       in: path
@@ -101,6 +107,13 @@ components:
       schema:
         type: integer
       description: The ID of the contract.
+    partyId:
+      name: party_id
+      in: path
+      required: true
+      schema:
+        type: integer
+      description: The ID of the party.
   schemas:
     Error:
       type: object
@@ -131,19 +144,6 @@ components:
           type: string
         _permissions:
           type: object
-  responses:
-    Unauthorized:
-      description: Missing or invalid API token / user email.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    BadRequest:
-      description: The request was malformed or invalid.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   securitySchemes:
     apiToken:
       type: apiKey
