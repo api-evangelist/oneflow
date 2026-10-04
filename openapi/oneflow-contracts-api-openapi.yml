@@ -166,70 +166,25 @@ paths:
         '401':
           $ref: '#/components/responses/Unauthorized'
 components:
-  responses:
-    BadRequest:
-      description: The request was malformed or invalid.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Missing or invalid API token / user email.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    NotFound:
-      description: The requested resource was not found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-  parameters:
-    contractId:
-      name: contract_id
-      in: path
-      required: true
-      schema:
-        type: integer
-      description: The ID of the contract.
-    limit:
-      name: limit
-      in: query
-      schema:
-        type: integer
-        minimum: 1
-        maximum: 100
-        default: 100
-      description: Maximum number of results to return.
-    offset:
-      name: offset
-      in: query
-      schema:
-        type: integer
-        minimum: 0
-        maximum: 19900
-        default: 0
-      description: Pagination offset.
   schemas:
-    ContractCreateRequest:
+    Participant:
       type: object
-      required:
-      - workspace_id
-      - template_id
       properties:
-        workspace_id:
+        id:
           type: integer
-        template_id:
-          type: integer
-        parties:
-          type: array
-          items:
-            $ref: '#/components/schemas/Party'
-        data_fields:
-          type: array
-          items:
-            $ref: '#/components/schemas/DataField'
+        name:
+          type: string
+        email:
+          type: string
+          format: email
+        phone_number:
+          type: string
+        signatory:
+          type: boolean
+        delivery_channel:
+          type: string
+        _permissions:
+          type: object
     Contract:
       type: object
       properties:
@@ -250,15 +205,6 @@ components:
         updated_time:
           type: string
           format: date-time
-    PublishRequest:
-      type: object
-      properties:
-        subject:
-          type: string
-          description: Subject line of the invitation message.
-        message:
-          type: string
-          description: Body of the invitation message sent to participants.
     Party:
       type: object
       properties:
@@ -277,6 +223,33 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Participant'
+    ContractCreateRequest:
+      type: object
+      required:
+      - workspace_id
+      - template_id
+      properties:
+        workspace_id:
+          type: integer
+        template_id:
+          type: integer
+        parties:
+          type: array
+          items:
+            $ref: '#/components/schemas/Party'
+        data_fields:
+          type: array
+          items:
+            $ref: '#/components/schemas/DataField'
+    PublishRequest:
+      type: object
+      properties:
+        subject:
+          type: string
+          description: Subject line of the invitation message.
+        message:
+          type: string
+          description: Body of the invitation message sent to participants.
     Error:
       type: object
       properties:
@@ -299,24 +272,51 @@ components:
           type: string
         value:
           type: string
-    Participant:
-      type: object
-      properties:
-        id:
-          type: integer
-        name:
-          type: string
-        email:
-          type: string
-          format: email
-        phone_number:
-          type: string
-        signatory:
-          type: boolean
-        delivery_channel:
-          type: string
-        _permissions:
-          type: object
+  parameters:
+    offset:
+      name: offset
+      in: query
+      schema:
+        type: integer
+        minimum: 0
+        maximum: 19900
+        default: 0
+      description: Pagination offset.
+    limit:
+      name: limit
+      in: query
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 100
+      description: Maximum number of results to return.
+    contractId:
+      name: contract_id
+      in: path
+      required: true
+      schema:
+        type: integer
+      description: The ID of the contract.
+  responses:
+    BadRequest:
+      description: The request was malformed or invalid.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Missing or invalid API token / user email.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   securitySchemes:
     apiToken:
       type: apiKey
