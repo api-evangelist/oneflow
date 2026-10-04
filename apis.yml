@@ -458,6 +458,9 @@ apis:
   - type: Documentation
     url: https://developer.oneflow.com/docs/contract.md
 common:
+- type: CapabilityMap
+  url: capabilities/oneflow-capability-edges.yml
+  name: Oneflow Business Capability Map
 - type: AgenticAccess
   url: agentic-access/oneflow-agentic-access.yml
 - type: VulnerabilityDisclosure

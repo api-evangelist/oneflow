@@ -1,0 +1,64 @@
+slug: oneflow
+provider: Oneflow
+generated_by: planning/capability-mapping/scripts/classify_capabilities.py
+model: claude-opus-5
+frame:
+- Software & Technology
+min_confidence: 0.7
+capability_model:
+  source: https://github.com/vincentmakes/turbo-ea-capabilities
+  license: CC-BY-4.0
+  attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
+    CC BY 4.0
+  notice: NOTICE
+edge_count: 5
+edges:
+- tag: Contracts
+  spec_file: oneflow-contracts-api-openapi.yml
+  capability_id: BC-150.10
+  capability_id_l1: BC-150
+  capability_name: Contract Management
+  confidence: 0.88
+  evidence: POST /contracts/create createContract; POST /contracts/{contract_id}/publish publishContract
+    — "Oneflow contract lifecycle management and e-signature platform"
+  reason: Operations create, update, publish and delete contracts — this is contract lifecycle management,
+    matching BC-150.10 Contract Management.
+- tag: Contract Files
+  spec_file: oneflow-contract-files-api-openapi.yml
+  capability_id: BC-150.10
+  capability_id_l1: BC-150
+  capability_name: Contract Management
+  confidence: 0.75
+  evidence: GET /contracts/{contract_id}/contract_files Download a contract file
+  reason: Retrieval of contract documents within Oneflow's 'contract lifecycle management and e-signature
+    platform' — contract artefact access, part of the contract lifecycle. Confidence moderated because
+    it is a single file-download operation.
+- tag: Parties
+  spec_file: oneflow-parties-api-openapi.yml
+  capability_id: BC-150.10
+  capability_id_l1: BC-150
+  capability_name: Contract Management
+  confidence: 0.75
+  evidence: POST /contracts/{contract_id}/parties  createParty  Add a party to a contract
+  reason: Contracting parties are a core contract artefact; operations attach counterparties to a contract,
+    squarely contract management.
+- tag: Participants
+  spec_file: oneflow-participants-api-openapi.yml
+  capability_id: BC-150.10
+  capability_id_l1: BC-150
+  capability_name: Contract Management
+  confidence: 0.72
+  evidence: POST /contracts/{contract_id}/parties/{party_id}/participants  createParticipant  Add a participant
+    to a party
+  reason: Manages the signatories/participants attached to a contract's parties — part of the contract
+    drafting and signing lifecycle.
+- tag: Comments
+  spec_file: oneflow-comments-api-openapi.yml
+  capability_id: BC-150.10
+  capability_id_l1: BC-150
+  capability_name: Contract Management
+  confidence: 0.7
+  evidence: GET /contracts/{contract_id}/comments Get contract comments
+  reason: Operation retrieves comments attached to a contract on a contract lifecycle management platform
+    ('negotiation, e-signing, and post-sign lifecycle management'), supporting contract collaboration.
+    Mapped to Contract Management, though the surface is a single thin read endpoint.
