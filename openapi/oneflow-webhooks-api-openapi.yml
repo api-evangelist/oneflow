@@ -98,6 +98,17 @@ paths:
           $ref: '#/components/responses/Unauthorized'
 components:
   schemas:
+    Error:
+      type: object
+      properties:
+        status_code:
+          type: integer
+        parameter_errors:
+          type: object
+        errors:
+          type: array
+          items:
+            type: object
     Webhook:
       type: object
       properties:
@@ -115,17 +126,6 @@ components:
           description: Event types the webhook subscribes to.
           items:
             type: string
-    Error:
-      type: object
-      properties:
-        status_code:
-          type: integer
-        parameter_errors:
-          type: object
-        errors:
-          type: array
-          items:
-            type: object
   responses:
     BadRequest:
       description: The request was malformed or invalid.
