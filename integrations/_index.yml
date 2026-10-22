@@ -139,3 +139,16 @@
   relationship: platform-app
   status: not-a-workflow
   arazzo: null
+- slug: oneflow-pipedrive-own
+  label: Pipedrive (own)
+  partner: pipedrive
+  partner_name: Pipedrive (own)
+  category: Manage contracts
+  type: marketplace
+  marketplace: own
+  channel: partner-built
+  evidence: https://www.pipedrive.com/en/marketplace/app/contract-magic-by-oneflow-for-pipedrive/27f16fc3bd398210
+  source: edge
+  relationship: platform-app
+  status: not-a-workflow
+  arazzo: null

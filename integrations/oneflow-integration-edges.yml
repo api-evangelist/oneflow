@@ -146,6 +146,23 @@ edges:
   detected: '2026-10-21'
   detected_by: mirror-platform-listings.py
   category: SALES_ENABLEMENT
+- partner_name: Pipedrive (own)
+  partner: pipedrive
+  partner_match: mirror
+  mirror_match: domain
+  type: marketplace
+  relationship: platform-app
+  direction: third-party
+  channel: partner-built
+  marketplace: own
+  evidence: https://www.pipedrive.com/en/marketplace/app/contract-magic-by-oneflow-for-pipedrive/27f16fc3bd398210
+  mirror_of: pipedrive/integrations/pipedrive-integration-edges.yml
+  apps:
+  - Contract magic by Oneflow for Pipedrive
+  listing_count: 1
+  detected: '2026-10-22'
+  detected_by: mirror-platform-listings.py
+  category: Manage contracts
 method: searched
 checked:
 - https://zapier.com/api/v4/apps/
@@ -162,5 +179,6 @@ checked:
 - https://ecosystem.hubspot.com/marketplace/explore?eco_PRODUCT_TYPE=APP&eco_CERTIFIED=true
 - https://ecosystem.hubspot.com/marketplace/solutions
 - hubspot/integrations/hubspot-integration-edges.yml
+- pipedrive/integrations/pipedrive-integration-edges.yml
 source:
 - https://zapier.com/api/v4/apps/
