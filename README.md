@@ -1,4 +1,4 @@
-# Oneflow (oneflow)
+# Oneflow
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -64,208 +64,138 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-Oneflow is a contract lifecycle management (CLM) and e-signature platform that turns static documents into smart, data-rich digital contracts - covering creation from templates, negotiation, e-signing, and post-sign lifecycle management. The Oneflow Public API is a REST API at `https://api.oneflow.com/v1`, authenticated with an account API token (`x-oneflow-api-token`) plus an acting-user email header (`x-oneflow-user-email`) for permission-scoped authorization. It lets teams programmatically create contracts from templates, add parties and participants, fill data fields and products, publish contracts for signing, download signed files, manage users and workspaces, and subscribe to contract lifecycle events via webhooks. API access and webhooks are available on the Business and Enterprise plans.
+Oneflow is a contract lifecycle management and e-signature platform that turns static documents into smart, data-rich digital contracts - covering creation from templates, negotiation, e-signing, and post-sign lifecycle management. The Oneflow Public API is a REST API at https://api.oneflow.com/v1 authenticated with an account API token (x-oneflow-api-token) plus an acting-user email header (x-oneflow-user-email) for permission checks. It lets teams programmatically create contracts from templates, add parties and participants, fill data fields and products, publish contracts for signing, download signed files, and subscribe to contract lifecycle events via webhooks. API access and webhooks are available on the Business and Enterprise plans.
 
-**APIs.json:** [https://raw.githubusercontent.com/api-evangelist/oneflow/refs/heads/main/apis.yml](https://raw.githubusercontent.com/api-evangelist/oneflow/refs/heads/main/apis.yml)
+**Areas:** Contract Management · Contract Lifecycle Management · E-Signature · Digital Contracts · Document Automation
 
-## Tags
+## Oneflow on APIs.io
 
-- Contract Management
-- Contract Lifecycle Management
-- E-Signature
-- Digital Contracts
-- Document Automation
-- CLM
+Everything profiled for Oneflow is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/oneflow/](https://apis.io/providers/oneflow/)** — or go straight to one of the APIs or properties below.
 
-## Timestamps
+### APIs (11)
 
-- **Created:** 2026-07-03
-- **Modified:** 2026-07-03
+- [Oneflow Comments API](https://apis.io/apis/oneflow/oneflow-comments-api/) — Inline collaboration comments on a contract.
+- [Oneflow Contract Files API](https://apis.io/apis/oneflow/oneflow-contract-files-api/) — Download the files (PDF / signed documents) attached to a contract.
+- [Oneflow Contracts API](https://apis.io/apis/oneflow/oneflow-contracts-api/) — Create, retrieve, update, publish, copy, and delete contracts.
+- [Oneflow Data Fields API](https://apis.io/apis/oneflow/oneflow-data-fields-api/) — Custom / merge fields on contracts and template types.
+- [Oneflow Participants API](https://apis.io/apis/oneflow/oneflow-participants-api/) — Signatories and viewers belonging to a party.
+- [Oneflow Parties API](https://apis.io/apis/oneflow/oneflow-parties-api/) — Counterparty companies or individuals on a contract.
+- [Oneflow Ping API](https://apis.io/apis/oneflow/oneflow-ping-api/) — Health check and token validation.
+- [Oneflow Templates API](https://apis.io/apis/oneflow/oneflow-templates-api/) — Templates and template types used to create contracts.
+- [Oneflow Users API](https://apis.io/apis/oneflow/oneflow-users-api/) — Users in an account.
+- [Oneflow Webhooks API](https://apis.io/apis/oneflow/oneflow-webhooks-api/) — Subscriptions delivering contract lifecycle events to a callback URL.
+- [Oneflow Workspaces API](https://apis.io/apis/oneflow/oneflow-workspaces-api/) — Organizational containers that scope templates and contracts.
 
-## APIs
+### Published properties
 
-### Oneflow Contracts API
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
 
-Create contracts from templates, retrieve and list contracts, update top-level contract information, publish a draft contract for signing, copy and delete contracts, and download the resulting contract files. The core resource of the Oneflow platform.
+#### Agentic access (1)
 
-- **Human URL:** [https://developer.oneflow.com/docs/create-a-basic-contract](https://developer.oneflow.com/docs/create-a-basic-contract)
-- **Base URL:** `https://api.oneflow.com/v1`
+Which operations an agent can call, which act, and which need a human in the loop.
 
-#### Tags
+- [Oneflow Agentic Access](https://apis.io/agentic-access/oneflow/oneflow-agentic-access/)
 
-- Contracts
-- E-Signature
-- Lifecycle
+#### Collections (12)
 
-#### Properties
+Postman and Open Collection request collections.
 
-- [Documentation](https://developer.oneflow.com/docs/getting-started)
-- [API Reference](https://developer.oneflow.com/docs/create-a-basic-contract)
-- [OpenAPI](openapi/oneflow-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/oneflow.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/oneflow.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+- [Oneflow Public API](https://apis.io/collections/oneflow/open-oneflow/)
+- [Oneflow Public Comments API](https://apis.io/collections/oneflow/open-oneflow-comments-api/)
+- [Oneflow Public Comments Contract Files API](https://apis.io/collections/oneflow/open-oneflow-contract-files-api/)
+- [Oneflow Public Comments Contracts API](https://apis.io/collections/oneflow/open-oneflow-contracts-api/)
+- [Oneflow Public Comments Data Fields API](https://apis.io/collections/oneflow/open-oneflow-data-fields-api/)
+- [Oneflow Public Comments Participants API](https://apis.io/collections/oneflow/open-oneflow-participants-api/)
+- [Oneflow Public Comments Parties API](https://apis.io/collections/oneflow/open-oneflow-parties-api/)
+- [Oneflow Public Comments Ping API](https://apis.io/collections/oneflow/open-oneflow-ping-api/)
+- [Oneflow Public Comments Templates API](https://apis.io/collections/oneflow/open-oneflow-templates-api/)
+- [Oneflow Public Comments Users API](https://apis.io/collections/oneflow/open-oneflow-users-api/)
+- [Oneflow Public Comments Webhooks API](https://apis.io/collections/oneflow/open-oneflow-webhooks-api/)
+- [Oneflow Public Comments Workspaces API](https://apis.io/collections/oneflow/open-oneflow-workspaces-api/)
 
-### Oneflow Templates API
+#### Security (3)
 
-Retrieve the templates available to a user and inspect template types - the reusable, pre-configured contract definitions that new contracts are created from. Filterable by workspace, template type, and active state.
+Authentication, trust centre, and vulnerability disclosure.
 
-- **Human URL:** [https://developer.oneflow.com/reference/get-templates](https://developer.oneflow.com/reference/get-templates)
-- **Base URL:** `https://api.oneflow.com/v1`
+- [Oneflow Authentication](https://apis.io/security/oneflow/oneflow-authentication/)
+- [Oneflow Domain Security](https://apis.io/security/oneflow/oneflow-domain-security/)
+- [Oneflow Vulnerability Disclosure](https://apis.io/security/oneflow/oneflow-vulnerability-disclosure/)
 
-#### Tags
+#### Plans and pricing (1)
 
-- Templates
-- Template Types
-- Contract Creation
+Published plans, tiers and prices.
 
-#### Properties
+- [Oneflow Plans Pricing](https://apis.io/plans/oneflow/oneflow-plans-pricing/)
 
-- [API Reference](https://developer.oneflow.com/reference/get-templates)
-- [OpenAPI](openapi/oneflow-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/oneflow.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/oneflow.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+#### Rate limits (1)
 
-### Oneflow Workspaces API
+Published request limits.
 
-List the workspaces in an account - the organizational containers that scope templates, contracts, branding, and permissions. Workspace IDs are required when creating contracts and filtering templates.
+- [Oneflow Rate Limits](https://apis.io/rate-limits/oneflow/oneflow-rate-limits/)
 
-- **Human URL:** [https://developer.oneflow.com/reference/get-workspaces](https://developer.oneflow.com/reference/get-workspaces)
-- **Base URL:** `https://api.oneflow.com/v1`
+#### FinOps (1)
 
-#### Tags
+What the API costs to run, by operation.
 
-- Workspaces
-- Organization
-- Accounts
+- [Oneflow Finops](https://apis.io/finops/oneflow/oneflow-finops/)
 
-#### Properties
+## Where to find this API
 
-- [API Reference](https://developer.oneflow.com/reference/get-workspaces)
-- [OpenAPI](openapi/oneflow-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/oneflow.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/oneflow.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
 
-### Oneflow Data Fields API
-
-Read and update the data fields (custom / merge fields) on a contract and inspect the data fields defined on a template type. Data fields drive the dynamic, data-rich content Oneflow merges into a contract.
-
-- **Human URL:** [https://developer.oneflow.com/docs/data-field.md](https://developer.oneflow.com/docs/data-field.md)
-- **Base URL:** `https://api.oneflow.com/v1`
-
-#### Tags
-
-- Data Fields
-- Custom Fields
-- Merge Fields
-
-#### Properties
-
-- [Documentation](https://developer.oneflow.com/docs/data-field.md)
-- [OpenAPI](openapi/oneflow-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/oneflow.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/oneflow.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-
-### Oneflow Participants API
-
-Manage the parties (counterparty companies or individuals) and the participants (signatories and viewers) on a contract - add, update, and remove them, and control their signing method, permissions, and delivery channel before a contract is published.
-
-- **Human URL:** [https://developer.oneflow.com/docs/participant.md](https://developer.oneflow.com/docs/participant.md)
-- **Base URL:** `https://api.oneflow.com/v1`
-
-#### Tags
-
-- Participants
-- Parties
-- Signatories
-
-#### Properties
-
-- [Documentation](https://developer.oneflow.com/docs/participant.md)
-- [Documentation](https://developer.oneflow.com/docs/party.md)
-- [OpenAPI](openapi/oneflow-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/oneflow.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/oneflow.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-
-### Oneflow Webhooks API
-
-Register, list, and delete webhook subscriptions that deliver contract lifecycle events (published, signed, declined, and others) to an HTTP callback URL, optionally filtered by event type and workspace. Oneflow's outbound push mechanism - there is no public WebSocket API.
-
-- **Human URL:** [https://developer.oneflow.com/docs/webhook.md](https://developer.oneflow.com/docs/webhook.md)
-- **Base URL:** `https://api.oneflow.com/v1`
-
-#### Tags
-
-- Webhooks
-- Events
-- Callbacks
-
-#### Properties
-
-- [Documentation](https://developer.oneflow.com/docs/webhook.md)
-- [OpenAPI](openapi/oneflow-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/oneflow.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/oneflow.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-
-### Oneflow Users API
-
-List and retrieve the users in an account - the people whose email addresses back the `x-oneflow-user-email` authorization header and who own contracts, templates, and workspace permissions. Enterprise accounts also provision users and groups via a separate SCIM API.
-
-- **Human URL:** [https://developer.oneflow.com/reference/get-users-in-an-account](https://developer.oneflow.com/reference/get-users-in-an-account)
-- **Base URL:** `https://api.oneflow.com/v1`
-
-#### Tags
-
-- Users
-- Accounts
-- Identity
-
-#### Properties
-
-- [API Reference](https://developer.oneflow.com/reference/get-users-in-an-account)
-- [Documentation](https://developer.oneflow.com/docs/user.md)
-- [OpenAPI](openapi/oneflow-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/oneflow.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/oneflow.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-
-### Oneflow Comments API
-
-Read the inline comments left on a contract during negotiation - the threaded collaboration messages exchanged between internal users and counterparties while a contract is being reviewed and agreed.
-
-- **Human URL:** [https://developer.oneflow.com/docs/contract.md](https://developer.oneflow.com/docs/contract.md)
-- **Base URL:** `https://api.oneflow.com/v1`
-
-#### Tags
-
-- Comments
-- Collaboration
-- Contracts
-
-#### Properties
-
-- [Documentation](https://developer.oneflow.com/docs/contract.md)
-- [OpenAPI](openapi/oneflow-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/oneflow.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/oneflow.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-
-## Common Properties
-
-- [LinkedIn](https://www.linkedin.com/company/oneflowcom)
 - [Website](https://oneflow.com)
 - [Documentation](https://developer.oneflow.com)
-- [Plans](plans/oneflow-plans-pricing.yml)
-- [Rate Limits](rate-limits/oneflow-rate-limits.yml)
-- [Fin Ops](finops/oneflow-finops.yml)
+- [Blog](https://oneflow.com/blog/)
 
-## Authentication
+## API Evangelist rating
 
-Every request to the Oneflow Public API (`https://api.oneflow.com/v1`) requires two HTTP headers:
+**Kin Score 27.0** — thin · rubric 0.24.0 · scored 2026-10-17
 
-- `x-oneflow-api-token` — the account API token, generated under **Marketplace → API tokens** in the Oneflow application.
-- `x-oneflow-user-email` — the email of the acting Oneflow user, used for permission-scoped authorization (omitting it runs the request as an anonymous admin user).
+| Facet | Score |
+|---|---|
+| Discoverability | 66.1 |
+| Contract quality | 50.4 |
+| Contract governance | 0.0 |
+| Operational transparency | 7.9 |
+| Developer ergonomics | 27.4 |
+| Access clarity | 7.9 |
 
-Validate a token with `GET /v1/ping`, which returns `200` and an empty object on success.
+**Agent readiness 17.9** — agent-aware
 
-## Maintainers
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | derived (partial credit) |
+| Reversibility Documented | — |
+| MCP Server | — |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | — |
+| Error Semantics | — |
+| OpenAPI Examples | — |
+| Rate Limit Signal | derived (partial credit) |
+| Event Surface Described | — |
+| Agent Skills | — |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
 
-**FN:** Kin Lane
-**Email:** kin@apievangelist.com
+**Regulatory alignment 17.6** — Horizontal (data, software, accessibility, platform)
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/oneflow/](https://apis.io/providers/oneflow/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Oneflow: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/oneflow/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
